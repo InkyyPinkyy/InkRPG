@@ -83,8 +83,8 @@ def event_enemy_encounter(player):
     enemy_encounter(player, gegner)
 
 def choose_equipment(player):
+        player.show_inventory("weapons_armor_rings_necklaces")        
         print(f"Wähle einen Gegenstand zum Ausrüsten:")
-        player.show_inventory()
 
         try:
             wahl = int(input(f"\nGib die Nummer des Gegenstandes ein, den du auwählen möchtest: ")) -1
@@ -99,6 +99,9 @@ def choose_equipment(player):
                 elif item.type == "ring":
                     player.ring = item
                     print(f"{player.name} hat '{item.name}' als Ring ausgerüstet!")
+                elif item.type == "necklace":
+                    player.necklace = item
+                    print(f"{player.name} hat '{item.name}' als Kette ausgerüstet!")
                 else:
                     print(f"Dieses Item kann nicht ausgerüstet werden!")
             else:
@@ -107,12 +110,7 @@ def choose_equipment(player):
             print(f"Bitte gib eine gültige Zahl ein")
 
 def do_inventory_shit(player):
-    print("\nInventar:")
-    if player.inventory:
-        for idx, item in enumerate(player.inventory, start = 1):
-            print(f"{idx}. {item}")
-    else:
-        print("Dein Inventar ist leer")
+    player.show_inventory("all")
     action = input("\nGegenstand ausrüsten (1), Gegenstand konsumieren (2) oder zurückkehren (3)? ")
     if action.lower() == '1':
         choose_equipment(player)

@@ -36,11 +36,43 @@ class Player:
         self.inventory.append(item)
         print(f"{self.name} hat {item} aufgenommen!")
 
-    def show_inventory(self):
-        print("\nInventar:")
-        if self.inventory:
+    def show_inventory(self, which_items_to_show = None):
+        if which_items_to_show == "all":
+            print(f"\nAlle Items im Inventar:")
             for idx, item in enumerate(self.inventory, start = 1):
                 print(f"{idx}. {item}")
+        elif which_items_to_show == "weapons":
+            print(f"\nWaffen im Inventar:")
+            for idx, item in enumerate(self.inventory, start = 1):
+                if isinstance(item, weapon):
+                    print(f"{idx}. {item}")
+        elif which_items_to_show == "armor":    
+            print(f"\nRüstungen im Inventar:")
+            for idx, item in enumerate(self.inventory, start = 1):
+                if isinstance(item, armor):
+                    print(f"{idx}. {item}")
+        elif which_items_to_show == "rings":
+            print(f"\nRinge im Inventar:")
+            for idx, item in enumerate(self.inventory, start = 1):
+                if isinstance(item, ring):
+                    print(f"{idx}. {item}")
+        elif which_items_to_show == "necklaces":
+            print(f"\nHalsketten im Inventar:")
+            for idx, item in enumerate(self.inventory, start = 1):
+                if isinstance(item, necklace):
+                    print(f"{idx}. {item}")
+        elif which_items_to_show == "consumables":
+            print(f"\nVerbrauchbare Items im Inventar:")
+            for idx, item in enumerate(self.inventory, start = 1):
+                if isinstance(item, consumable):
+                    print(f"{idx}. {item}")
+        elif which_items_to_show == "weapons_armor_rings_necklaces":
+            print(f"\nAusrüstungsgegenstände im Inventar:")
+            for idx, item in enumerate(self.inventory, start = 1):
+                if isinstance(item, weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace):
+                    print(f"{idx}. {item}")
+
+
         else:
             print("Dein Inventar ist leer")
 
@@ -173,6 +205,13 @@ events = [
     "event_player_random_thoughts",
     "event_bird_shits_on_player",
     "event_random_animal",
+    "event_player_finds_farmhouse",
+    "event_player_finds_abandoned_farmhouse",
+    "event_player_finds_herb",
+    "event_player_finds_city",
+    "event_player_finds_npc_getting_attacked",
+
+
 ]
 
 items = {
@@ -237,8 +276,14 @@ class necklace(item):
         self.armor_type = necklace_type
         self.armor_vitality = necklace_strength
 
+    def __str__(self):
+        return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n{self.item_info}"
+
 class consumable(item):
     def __init__(self, name, type, item_info, consumable_type, hp_player_gets):
         super().__init__(name, type, item_info)
         self.consumable_type = consumable_type
         self.hp_player_gets = int(hp_player_gets)
+
+    def __str__(self):
+        return f"{self.name} ({self.type}): {self.hp_player_gets} HP\n{self.item_info}"
