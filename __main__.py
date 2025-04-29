@@ -150,13 +150,9 @@ def main():
         name = welcome_player()
         class_name = choose_class()
         player = Player(name, CLASSES[class_name])
-        Messer = weapon("Messer", "weapon","Ein kleines Messer, dass du in deiner Tasche gefunden hast", "messer", 5)
-        Drachenschwert = weapon("Drachenschwert", "weapon", "Random-ass Schwert zu test-zwecken", "Schwert", 6969)
-        RandomAssRing = ring("Ring der Rache oder so", "ring", "Random ass test-ring", "rache", 69)
+        Messer = weapon("Messer", "weapon","Ein kleines Messer, dass du in deiner Tasche gefunden hast", "messer", 5))
         player.weapon = Messer
         player.inventory.append(Messer)
-        player.inventory.append(Drachenschwert)
-        player.inventory.append(RandomAssRing)
         player.hp = player.max_max_hp
 
     while True:
