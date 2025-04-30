@@ -64,6 +64,7 @@ def check_amount_player_xp(player):
         print(f"Du hast Level {player.level} erreicht und einen Skillpunkt bekommen!")
 
 def show_player_stats(player):
+        """Zeigt die Stats des Spielers an"""
         print(f"\n{player.name}'s Stats:")
         print(f"Rasse: {player.name_of_player_class}")
         print(f"{round(player.hp)}/{round(player.max_max_hp)} HP")

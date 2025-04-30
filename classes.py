@@ -37,6 +37,10 @@ class Player:
         print(f"{self.name} hat {item} aufgenommen!")
 
     def show_inventory(self, which_items_to_show = None):
+        """
+        legal values for which_items_to_show:\n
+        all, weapons, armor, rings, necklaces, consumables, \nweapons_armor_rings_necklaces
+        """
         if which_items_to_show == "all":
             print(f"\nAlle Items im Inventar:")
             for idx, item in enumerate(self.inventory, start = 1):
