@@ -145,7 +145,8 @@ def do_inventory_shit(player):
     if action.lower() == '1':
         choose_equipment(player)
     elif action.lower() == '2':
-        consume_item(player)
+        return
+        #consume_item(player)
     elif action.lower() == '3':
         return
 
