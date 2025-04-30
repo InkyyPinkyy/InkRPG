@@ -108,6 +108,34 @@ def choose_equipment(player):
                 print(f"ungültige Auswahl")
         except ValueError:
             print(f"Bitte gib eine gültige Zahl ein")
+    
+def consume_item(player):
+    player.show_inventory("consumables")
+    print(f"\nWas möchtest du konsumieren?")
+    try:
+        wahl = int(input(f"\nGib die Nummer des Gegenstandes ein, den du auwählen möchtest: "))
+        item = player.consumables_inventory[wahl]
+        if 0 <= wahl < len(player.inventory):
+            if item.consumable_type == "health":
+                player.hp += item.stats_player_gets
+                print(f"{player.name} hat {item.name} konsumiert und {item.stats_player_gets} HP erhalten!")
+                player.inventory.remove(item)
+            elif item.consumable_type == "strength":
+                player.strength += item.stats_player_gets
+                print(f"{player.name} hat {item.name} konsumiert und {item.stats_player_gets} Stärke erhalten!")
+                player.inventory.remove(item)
+            elif item.consumable_type == "increase_max_health":
+                player.max_hp += item.stats_player_gets
+                print(f"{player.name} hat {item.name} konsumiert und\nzusätzliche {item.stats_player_gets} maximale HP erhalten!")
+                player.inventory.remove(item)
+            elif item.consumable_type == "increase_attack_damage":
+                player.attack_damage += item.stats_player_gets
+                print(f"{player.name} hat {item.name} konsumiert und {item.stats_player_gets} zusätzlichen Angriffsschaden erhalten!")
+                player.inventory.remove(item)
+        else:
+            return
+    except ValueError:
+        print(f"Bitte gib eine gültige Zahl ein")
 
 def do_inventory_shit(player):
     player.show_inventory("all")
@@ -115,7 +143,7 @@ def do_inventory_shit(player):
     if action.lower() == '1':
         choose_equipment(player)
     elif action.lower() == '2':
-        pass
+        consume_item(player)
     elif action.lower() == '3':
         return
 
@@ -151,10 +179,12 @@ def main():
         Messer = weapon("Messer", "weapon","Ein kleines Messer, dass du in deiner Tasche gefunden hast", "messer", 5)
         Drachenschwert = weapon("Drachenschwert", "weapon", "Random-ass Schwert zu test-zwecken", "Schwert", 6969)
         RandomAssRing = ring("Ring der Rache oder so", "ring", "Random ass test-ring", "rache", 69)
+        Heiltrank = consumable("Heiltrank", "consumable", "Eine kleine Glasröhre mit einer rötlich schimmernden Flüssigkeit","health",100)
         player.weapon = Messer
         player.inventory.append(Messer)
         player.inventory.append(Drachenschwert)
         player.inventory.append(RandomAssRing)
+        player.inventory.append(Heiltrank)
         player.hp = player.max_max_hp
 
     while True:

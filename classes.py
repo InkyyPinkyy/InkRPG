@@ -42,10 +42,10 @@ class Player:
             for idx, item in enumerate(self.inventory, start = 1):
                 print(f"{idx}. {item}")
         elif which_items_to_show == "weapons":
+            weapons_inventory = [item for item in self.inventory if isinstance(item, weapon)]
             print(f"\nWaffen im Inventar:")
-            for idx, item in enumerate(self.inventory, start = 1):
-                if isinstance(item, weapon):
-                    print(f"{idx}. {item}")
+            for idx, item in enumerate(weapons_inventory, start = 1):
+                print(f"{idx}. {item}")
         elif which_items_to_show == "armor":    
             print(f"\nRüstungen im Inventar:")
             for idx, item in enumerate(self.inventory, start = 1):
@@ -57,20 +57,21 @@ class Player:
                 if isinstance(item, ring):
                     print(f"{idx}. {item}")
         elif which_items_to_show == "necklaces":
+            necklaces_inventory = [item for item in self.inventory if isinstance(item, necklace)]
             print(f"\nHalsketten im Inventar:")
             for idx, item in enumerate(self.inventory, start = 1):
                 if isinstance(item, necklace):
                     print(f"{idx}. {item}")
         elif which_items_to_show == "consumables":
+            consumables_inventory = [item for item in self.inventory if isinstance(item, consumable)]
             print(f"\nVerbrauchbare Items im Inventar:")
-            for idx, item in enumerate(self.inventory, start = 1):
-                if isinstance(item, consumable):
-                    print(f"{idx}. {item}")
+            for idx, item in enumerate(consumables_inventory, start = 1):
+                print(f"{idx}. {item}")
         elif which_items_to_show == "weapons_armor_rings_necklaces":
+            equippable_inventory = [item for item in self.inventory if isinstance(item, weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace)]
             print(f"\nAusrüstungsgegenstände im Inventar:")
-            for idx, item in enumerate(self.inventory, start = 1):
-                if isinstance(item, weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace):
-                    print(f"{idx}. {item}")
+            for idx, item in enumerate(equippable_inventory, start = 1):
+                print(f"{idx}. {item}")
 
 
         else:
@@ -280,10 +281,10 @@ class necklace(item):
         return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n{self.item_info}"
 
 class consumable(item):
-    def __init__(self, name, type, item_info, consumable_type, hp_player_gets):
+    def __init__(self, name, type, item_info, consumable_type, stats_player_gets):
         super().__init__(name, type, item_info)
         self.consumable_type = consumable_type
-        self.hp_player_gets = int(hp_player_gets)
+        self.stats_player_gets = int(stats_player_gets)
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.hp_player_gets} HP\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n{self.item_info}"
