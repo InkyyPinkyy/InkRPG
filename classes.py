@@ -63,7 +63,7 @@ class Player:
         elif which_items_to_show == "necklaces":
             necklaces_inventory = [item for item in self.inventory if isinstance(item, necklace)]
             print(f"\nHalsketten im Inventar:")
-            for idx, item in enumerate(self.inventory, start = 1):
+            for idx, item in enumerate(necklaces_inventory, start = 1):
                 if isinstance(item, necklace):
                     print(f"{idx}. {item}")
         elif which_items_to_show == "consumables":
@@ -71,6 +71,7 @@ class Player:
             print(f"\nVerbrauchbare Items im Inventar:")
             for idx, item in enumerate(consumables_inventory, start = 1):
                 print(f"{idx}. {item}")
+                return consumables_inventory
         elif which_items_to_show == "weapons_armor_rings_necklaces":
             equippable_inventory = [item for item in self.inventory if isinstance(item, weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace)]
             print(f"\nAusrüstungsgegenstände im Inventar:")

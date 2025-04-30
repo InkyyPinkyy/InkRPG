@@ -115,7 +115,7 @@ def consume_item(player):
     print(f"\nWas möchtest du konsumieren?")
     try:
         wahl = int(input(f"\nGib die Nummer des Gegenstandes ein, den du auwählen möchtest: "))
-        item = player.consumables_inventory[wahl]
+        item = consumables_inventory[wahl]
         if 0 <= wahl < len(player.inventory):
             if item.consumable_type == "health":
                 player.hp += item.stats_player_gets
@@ -135,6 +135,7 @@ def consume_item(player):
                 player.inventory.remove(item)
         else:
             return
+        return
     except ValueError:
         print(f"Bitte gib eine gültige Zahl ein")
 
