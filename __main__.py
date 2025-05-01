@@ -1,22 +1,19 @@
 from classes import *
 
 def enemy_encounter(player, enemy):
-    '''
-    initialisiert einen Kampf zwischen dem Spieler 
-    und einem Gegner. Am Anfang gibt es die Option,
-    zu fliehen oder den Kampf zu starten.
-    Beim fliehen wird der Kampf beendet, beim Kämpfen
-    wird er richtig initialisiert. 
-    Dabei werden der Schaden des Spielers und der
-    des Gegners verschieden ausgerechnet.
-    '''
-    print(f"\nEin {enemy.name} greift an!")
+    """
+    initialises a battle with the player and an enemy.
+    There is an option to flee, where the fight gets
+    cancelled. The damage of the enemy scales with
+    the players strength.
+    """
+    print(f"\nA {enemy.name} is attacking you!")
     
     while player.hp > 0 and enemy.hp > 0:
         print(f"\n{player.name}: {player.hp}/{player.max_max_hp} HP")
         print(f"{enemy.name}: {enemy.hp}/{enemy.max_hp} HP")
 
-        action = input("Angreifen (a) oder Fliehen (f)? ")
+        action = input("Attack (a) or flee (f)? ")
         if action.lower() == 'a':
             try: damage = random.uniform(
                 ((player.attack_damage + player.weapon.weapon_damage) * player.strength) * 0.9,
@@ -28,7 +25,8 @@ def enemy_encounter(player, enemy):
             )
             enemy.hp -= round(damage)
             # (f"{damage:.2f})
-            print(f"Du fügst dem {enemy.name} {round(damage)} Schaden zu!")
+
+            print(f"You are dealing {round(damage)} damage to the {enemy.name}!")
 
             if enemy.hp > 0:
                 damage = random.uniform(
@@ -36,24 +34,24 @@ def enemy_encounter(player, enemy):
                 enemy.attack_damage * player.strength * 1.1
             )
                 player.hp -= round(damage)
-                print(f"Der {enemy.name} fügt dir {round(damage)} Schaden zu!")
+                print(f"The enemy is dealing {round(damage)} damage to you!")
 
         elif action.lower() == 'f':
-            print("Du bist geflohen!")
+            print("You fled!")
             return
 
     if player.hp > 0:
-        print(f"Du hast den {enemy.name} besiegt!")
+        print(f"You won gainst the {enemy.name}!")
         gold_earned = random.randint(10, 20)
         player.gold += gold_earned
-        print(f"Du erhältst {gold_earned} Gold!")
+        print(f"You got {gold_earned} gold!")
         xp_earned = random.randint(enemy.max_hp // 10, enemy.max_hp // 3)
         player.xp += xp_earned
-        print(f"Du erhältst {xp_earned} XP!")
+        print(f"You  got {xp_earned} XP!")
         check_amount_player_xp(player)
         
     else:
-        print("Du wurdest besiegt...")
+        print("You lost...")
         exit()
 
 def check_amount_player_xp(player):
@@ -61,92 +59,90 @@ def check_amount_player_xp(player):
         player.xp -= (player.level * 32)
         player.level += 1
         player.skillpoints += 1
-        print(f"Du hast Level {player.level} erreicht und einen Skillpunkt bekommen!")
+        print(f"You reached level {player.level} and got a skillpoint!")
 
 def show_player_stats(player):
-        """Zeigt die Stats des Spielers an"""
-        print(f"\n{player.name}'s Stats:")
-        print(f"Rasse: {player.name_of_player_class}")
+        """shows the player's stats"""
+        print(f"\n{player.name}'s stats:")
+        print(f"Class: {player.name_of_player_class}")
         print(f"{round(player.hp)}/{round(player.max_max_hp)} HP")
         print(f"Damage:", (player.attack_damage + player.weapon.weapon_damage) * player.strength)
-        print(f"Deine Waffe: {player.weapon}")
-        print(f"Deine Rüstung: {player.armor}")
-        print(f"Dein Ring: {player.ring}")
-        print(f"Deine Kette: {player.necklace}")
-        print(f"Dein Level: {player.level}")
-        print(f"{player.xp}/{player.level * 32} XP bis zum nächsten Level")
-        print(f"{player.skillpoints} Skillpoints")
-        print(f"Gold: {player.gold}")
+        print(f"Your weapon: {player.weapon}")
+        print(f"Your armor: {player.armor}")
+        print(f"Your ring: {player.ring}")
+        print(f"Your necklace: {player.necklace}")
+        print(f"Your level: {player.level}")
+        print(f"{player.xp}/{player.level * 32} XP until the next level")
+        print(f"{player.skillpoints} skillpoints")
 
 def event_enemy_encounter(player):
     monster_data = get_random_monster(monsters)
-    gegner = Enemy(monster_data)
-    enemy_encounter(player, gegner)
+    enemy = Enemy(monster_data)
+    enemy_encounter(player, enemy)
 
 def choose_equipment(player):
         player.show_inventory("weapons_armor_rings_necklaces")        
-        print(f"Wähle einen Gegenstand zum Ausrüsten:")
+        print(f"Choose an item to equip")
 
         try:
-            wahl = int(input(f"\nGib die Nummer des Gegenstandes ein, den du auwählen möchtest: ")) -1
+            wahl = int(input(f"\nProvide the number of the item you want to equip: ")) -1
             if 0 <= wahl < len(player.inventory):
                 item = player.inventory[wahl]
                 if item.type == "weapon":
                     player.weapon = item
-                    print(f"{player.name} hat '{item.name}' als Waffe ausgerüstet!")
+                    print(f"{player.name} equipped '{item.name}' as their weapon!")
                 elif item.type == "armor":
                     player.armor = item
-                    print(f"{player.name} hat '{item.name}' als Rüstung ausgerüstet!")
+                    print(f"{player.name} equipped '{item.name}' as their armor!")
                 elif item.type == "ring":
                     player.ring = item
-                    print(f"{player.name} hat '{item.name}' als Ring ausgerüstet!")
+                    print(f"{player.name} equipped '{item.name}' as their ring!")
                 elif item.type == "necklace":
                     player.necklace = item
-                    print(f"{player.name} hat '{item.name}' als Kette ausgerüstet!")
+                    print(f"{player.name} equipped '{item.name}' as their necklace!")
                 else:
-                    print(f"Dieses Item kann nicht ausgerüstet werden!")
+                    print(f"This item can't be equipped!")
             else:
-                print(f"ungültige Auswahl")
+                print(f"invalid selection")
         except ValueError:
-            print(f"Bitte gib eine gültige Zahl ein")
+            print(f"Please provide a valid number")
     
 def consume_item(player):
-    player.show_inventory("consumables")
-    print(f"\nWas möchtest du konsumieren?")
-    try:
-        wahl = int(input(f"\nGib die Nummer des Gegenstandes ein, den du auwählen möchtest: "))
-        item = player.show_inventory("consumables")[wahl]
+    consumable_items = player.show_inventory("consumables")
+    wahl = int(input(f"\nProvide the number of the item you want to consume: ")) -1
+    #player.show_inventory("consumables")
+    #print(f"\nWhat item do you want to consume?")
+    try:        
+        item = consumable_items[wahl]
         if 0 <= wahl < len(player.inventory):
             if item.consumable_type == "health":
                 player.hp += item.stats_player_gets
-                print(f"{player.name} hat {item.name} konsumiert und {item.stats_player_gets} HP erhalten!")
+                print(f"{player.name} consumed {item.name} and got {item.stats_player_gets} HP!")
                 player.inventory.remove(item)
             elif item.consumable_type == "strength":
                 player.strength += item.stats_player_gets
-                print(f"{player.name} hat {item.name} konsumiert und {item.stats_player_gets} Stärke erhalten!")
+                print(f"{player.name} consumed {item.name} and got {item.stats_player_gets} strength!")
                 player.inventory.remove(item)
             elif item.consumable_type == "increase_max_health":
                 player.max_hp += item.stats_player_gets
-                print(f"{player.name} hat {item.name} konsumiert und\nzusätzliche {item.stats_player_gets} maximale HP erhalten!")
+                print(f"{player.name} consumed {item.name} and got additional {item.stats_player_gets} max HP!")
                 player.inventory.remove(item)
             elif item.consumable_type == "increase_attack_damage":
                 player.attack_damage += item.stats_player_gets
-                print(f"{player.name} hat {item.name} konsumiert und {item.stats_player_gets} zusätzlichen Angriffsschaden erhalten!")
+                print(f"{player.name} consumed {item.name} and got additional {item.stats_player_gets} strength!")
                 player.inventory.remove(item)
         else:
             return
-        return
     except ValueError:
-        print(f"Bitte gib eine gültige Zahl ein")
+        print(f"Please provide a valid number")
 
 def do_inventory_shit(player):
-    player.show_inventory("all")
-    action = input("\nGegenstand ausrüsten (1), Gegenstand konsumieren (2) oder zurückkehren (3)? ")
+    player.show_inventory("everything")
+    action = input("\nEquip item (1), consume item (2) or return (3)? ")
     if action.lower() == '1':
         choose_equipment(player)
     elif action.lower() == '2':
-        return
-        #consume_item(player)
+        consume_item(player)
     elif action.lower() == '3':
         return
 
@@ -155,50 +151,46 @@ def do_random_event(events):
     return random_event
     
 def welcome_player():
-    print(f"\nWillkommen zu deinem neuen Abenteuer!")
-    print(f"Du wachst an einem dir unbekannten Strand auf und erinnerst dich an nichts...\nNicht einmal dein eigener Name fällt dir ein...")
-    print(f"In deinen Taschen findest du ein Messer, es ist nicht viel,\naber du solltest dich im Notfall verteidigen können.")
-    name = input("Also, wie möchtest du in deinem neuen Leben heißen?\nNeuer Name: ")
+    print(f"\nWelcome to your new adventure!")
+    print(f"You wake up under a tree and don't remember anything...\nYou can't even recall your own name...")
+    print(f"You find a knife in your pocket. It's not much, but you \nshould be able to protect yourself when in danger.")
+    name = input("So, what should be your new name in this new life of yours?\nNew name: ")
     return name
 
 def choose_class():
-    print(f"\nWähle eine Klasse:")
+    print(f"\nChoose a class:")
     for i, c in enumerate(CLASSES.keys(), 1):
         print(f"{i}. {c}")
-    choice = int(input(f"Deine Wahl: "))
+    choice = int(input(f"Your choice: "))
     class_name = list(CLASSES.keys())[choice - 1]
     return class_name
 
 def main():
-    if input(f"Neues Spiel (n) oder Laden (l)?\n").lower() == 'l':
+    if input(f"new game (n) or load an existing game (l)?\n").lower() == 'l':
         name = input("Gib deinen Spielernamen ein: ")
         player = Player.load_game(f"{name}_save.json")
         if not player:
+            print(f"invalid name, save-file does not exist.\nPlease try again or start a new game.")
             return
+        print(f"Welcome back, {player.name}!")
     else:
         name = welcome_player()
         class_name = choose_class()
         player = Player(name, CLASSES[class_name])
 
-        Messer = weapon("Messer", "weapon","Ein kleines Messer, dass du in deiner Tasche gefunden hast", "messer", 5)
-        Drachenschwert = weapon("Drachenschwert", "weapon", "Random-ass Schwert zu test-zwecken", "Schwert", 6969)
-        RandomAssRing = ring("Ring der Rache oder so", "ring", "Random ass test-ring", "rache", 69)
-        Heiltrank = consumable("Heiltrank", "consumable", "Eine kleine Glasröhre mit einer rötlich schimmernden Flüssigkeit","health",100)
-        player.weapon = Messer
-        player.inventory.append(Messer)
-        player.inventory.append(Drachenschwert)
-        player.inventory.append(RandomAssRing)
-        player.inventory.append(Heiltrank)
+        Knife = weapon("Knife", "weapon","A small knife that you found in your pocket", "knife", 5)
+        player.weapon = Knife
+        player.inventory.append(Knife)
         player.hp = player.max_max_hp
 
     while True:
-        print(f"\nWas möchtest du tun?")
-        print(f"1. Erkunden")
-        print(f"2. Inventar ansehen")
-        print(f"3. Spiel speichern")
-        print(f"4. Beenden")
-        print(f"5. Deine Stats ansehen")
-        choice = input("Deine Wahl: ")
+        print(f"\nWhat do you want to do?")
+        print(f"1. Explore")
+        print(f"2. Inventory")
+        print(f"3. Save the game")
+        print(f"4. Look at your stats")
+        print(f"5. Quit")
+        choice = input("Choice: ")
 
         if choice == '1':
             event_enemy_encounter(player)
@@ -206,11 +198,11 @@ def main():
             do_inventory_shit(player)
         elif choice == '3':
             player.save_game()
-            print("Spiel gespeichert!")
+            print("Saved game!")
         elif choice == '4':
-            print("Spiel beendet!")
-            break
-        elif choice == '5':
             show_player_stats(player)
+        elif choice == '5':
+            print("Closed game!")
+            break
 
 main()

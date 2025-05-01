@@ -15,7 +15,7 @@ class Player:
         self.inventory = []
         self.weapon = None
         self.armor = None
-        self.ring = ring("Platzhalter-Ring", "ring", "Random ass test-ring", "rache", 0  )
+        self.ring = None
         self.necklace = None
         self.vitality = player_class['vitality'] + self.ring.ring_vitality
         self.base_hp = player_class['hp'] 
@@ -29,58 +29,63 @@ class Player:
         self.target = target
         final_damage_dealt = (self.attack_damage + weapon.weapon_damage) * self.strength
         target.hp -= final_damage_dealt
-        print(f"{self.name} attackiert {target.name} und verursacht {final_damage_dealt} Schaden")
-        print(f"{target.name} hat noch {target.hp} Leben!")
+        print(f"{self.name} attacks {target.name} and deals {final_damage_dealt} damage!")
+        print(f"{target.name} still has {target.hp} HP!")
 
     def pick_up_item(self, item):
         self.inventory.append(item)
-        print(f"{self.name} hat {item} aufgenommen!")
+        print(f"{self.name} picked up {item.name}!")
 
     def show_inventory(self, which_items_to_show = None):
         """
         legal values for which_items_to_show:\n
-        all, weapons, armor, rings, necklaces, consumables, \nweapons_armor_rings_necklaces
+        - "everything": all items in the inventory\n
+        - "weapons": only weapons in the inventory\n
+        - "armor": all the armor in the inventory\n
+        - "rings": all the rings in the inventory\n
+        - "necklaces": all the necklaces in the inventory\n
+        - "consumables": all the consumable items in the inventory\n
+        - "weapons_armor_rings_necklaces": all the equippable items in the inventory\n
         """
-        if which_items_to_show == "all":
-            print(f"\nAlle Items im Inventar:")
+        if which_items_to_show == "everything":
+            print(f"\nYour inventory:")
+            print(f"{self.gold} Gold")            
             for idx, item in enumerate(self.inventory, start = 1):
                 print(f"{idx}. {item}")
         elif which_items_to_show == "weapons":
             weapons_inventory = [item for item in self.inventory if isinstance(item, weapon)]
-            print(f"\nWaffen im Inventar:")
+            print(f"\nYour weapons:")
             for idx, item in enumerate(weapons_inventory, start = 1):
                 print(f"{idx}. {item}")
         elif which_items_to_show == "armor":    
-            print(f"\nRüstungen im Inventar:")
+            print(f"\nYour armor-sets:")
             for idx, item in enumerate(self.inventory, start = 1):
                 if isinstance(item, armor):
                     print(f"{idx}. {item}")
         elif which_items_to_show == "rings":
-            print(f"\nRinge im Inventar:")
+            print(f"\nYour rings:")
             for idx, item in enumerate(self.inventory, start = 1):
                 if isinstance(item, ring):
                     print(f"{idx}. {item}")
         elif which_items_to_show == "necklaces":
             necklaces_inventory = [item for item in self.inventory if isinstance(item, necklace)]
-            print(f"\nHalsketten im Inventar:")
+            print(f"\nYour necklaces:")
             for idx, item in enumerate(necklaces_inventory, start = 1):
                 if isinstance(item, necklace):
                     print(f"{idx}. {item}")
         elif which_items_to_show == "consumables":
             consumables_inventory = [item for item in self.inventory if isinstance(item, consumable)]
-            print(f"\nVerbrauchbare Items im Inventar:")
+            print(f"\nYour consumable items:")
             for idx, item in enumerate(consumables_inventory, start = 1):
                 print(f"{idx}. {item}")
                 return consumables_inventory
         elif which_items_to_show == "weapons_armor_rings_necklaces":
             equippable_inventory = [item for item in self.inventory if isinstance(item, weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace)]
-            print(f"\nAusrüstungsgegenstände im Inventar:")
+            print(f"\nEquippable items:")
             for idx, item in enumerate(equippable_inventory, start = 1):
                 print(f"{idx}. {item}")
-
-
         else:
-            print("Dein Inventar ist leer")
+            print("Your inventory is empty!")
 
     def save_game(self):
         save_data = {
@@ -97,9 +102,9 @@ class Player:
             'xp': self.xp, 
             'gold': self.gold, 
             'inventory': [
-            {'type': type(item).__name__, **vars(item)} for item in self.inventory  # Speichere Typ und Attribute
+            {'type': type(item).__name__, **vars(item)} for item in self.inventory  # Save all items in the inventory converted to dicts
             ], 
-            'weapon': vars(self.weapon) if self.weapon else None,  # Objekt in ein Dictionary umwandeln
+            'weapon': vars(self.weapon) if self.weapon else None,  # object to dict
             'armor': vars(self.armor) if self.armor else None,
             'ring': vars(self.ring) if self.ring else None,
             'necklace': vars(self.necklace) if self.necklace else None
@@ -126,7 +131,7 @@ class Player:
 
                 player.inventory = []
                 for item_data in data['inventory']:
-                    item_type = item_data['type']  # Extrahiere den Typ des Items
+                    item_type = item_data['type']
                     
                     if item_type == 'weapon':
                         item = weapon(**item_data)
@@ -139,17 +144,17 @@ class Player:
                     elif item_type == 'consumable':
                         item = consumable(**item_data)
                     else:
-                        item = item(**item_data)  # Generische Basisklasse
+                        item = item(**item_data)
                     player.inventory.append(item)
                 
-                player.weapon = weapon(**data['weapon']) if data['weapon'] else None  # Objekt aus Dictionary erstellen
+                player.weapon = weapon(**data['weapon']) if data['weapon'] else None  # dict to object
                 player.armor = armor(**data['armor']) if data['armor'] else None
                 player.ring = ring(**data['ring']) if data['ring'] else None
                 player.necklace = necklace(**data['necklace']) if data['necklace'] else None
-                print(f"Spielstand von {player.name} wurde erfolgreich geladen!")
+                print(f"Game-file of {player.name} was succesfully loaded!")
                 return player
         else:
-            print("Speicherstand nicht gefunden!")
+            # mention of the not existing file is in main() function
             return None
     
     
@@ -175,8 +180,8 @@ class Enemy:
         self.target = target
         final_damage_dealt = (self.attack_damage + weapon.weapon_damage) * (Player.level * 0.7)
         target.hp -= final_damage_dealt
-        print(f"{self.name} attackiert {target.name} und verursacht {final_damage_dealt} Schaden")
-        print(f"{target.name} hat noch {target.hp} Leben!")
+        print(f"{self.name} attacks {target.name} and deals {final_damage_dealt} damage!")
+        print(f"{target.name} still has {target.hp} HP!")
     
 
     def __str__(self):
@@ -220,27 +225,46 @@ events = [
 
 ]
 
-items = {
-    "Dolch": {"name": "Dolch", "type": "weapon", "item_info": "Ein kleiner Dolch, der gut in deine Tasche passt.", "weapon_type": "dolch", "weapon_damage": 4},
-    "Kelch": {"name": "Kelch", "type": "item", "item_info": "Ein mysteriöser, goldener Kelch, den du gefunden hast."},
-    "Ring des Abyss": {"name": "Ring des Abyss", "type": "ring", "item_info": "Dieser Ring strahlt eine Atmosphäre aus,\ndie alles um sich herum aufzusaugen scheint.. \ngruselig...", "ring_type": "abyss", "ring_vitality": 1.2},
+all_items = {
+    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "daggger", "weapon_damage": 4},
+    "Chalice": {"name": "Chalice", "type": "item", "item_info": "A mysterious, golden Chalice that you found."},
+    "Ring of the abyss": {"name": "Ring of the abyss", "type": "ring", "item_info": "This ring is emitting an aura that seems \nto draw in everything around it. \ncreepy...", "ring_type": "abyss", "ring_vitality": 1.2},
+    "Ghoti": {"name": "Fish", "type": "weapon", "item_info": "reeks disgusting, but seems to never rot", "weapon_type": "fish", "weapon_damage": 15},
+    "GroßschwertGreatsword": {"name": "Greatsword", "type": "weapon", "item_info": "A badass sword that makes you look really cool.", "weapon_type": "greatsword", "weapon_damage": 25},
+
 }
 
-items_from_chests = {
-    "Dolch": {"name": "Dolch", "type": "weapon", "item_info": "Ein kleiner Dolch, der gut in deine Tasche passt.", "weapon_type": "dolch", "weapon_damage": 4},
-    "Goldkelch": {"name": "Kelch", "type": "item", "item_info": "Ein mysteriöser, goldener Kelch, den du gefunden hast."},
-    "Ring des Abyss": {"name": "Ring des Abyss", "type": "ring", "item_info": "Dieser Ring strahlt eine Atmosphäre aus,\ndie alles um sich herum aufzusaugen scheint.. \ngruselig...", "ring_type": "abyss", "ring_vitality": 1.2},
-    "Scholle": {"name": "Scholle", "type": "weapon", "item_info": "Riecht ranzig, scheint aber niemals vergammeln zu können.", "weapon_type": "fisch", "weapon_damage": 15},
-    "Großschwert": {"name": "Großschwert", "type": "weapon", "item_info": "Ein badass großes Schwert, dass dich befähigt,\ndeinen Feinden so richtig in den Hintern zu treten.", "weapon_type": "großschwert", "weapon_damage": 25},
+items_from_small_chests = {
+    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "daggger", "weapon_damage": 4},
+    "Chalice": {"name": "Chalice", "type": "item", "item_info": "A mysterious, golden Chalice that you found."},
+    "Ring of the abyss": {"name": "Ring of the abyss", "type": "ring", "item_info": "This ring is emitting an aura that seems \nto draw in everything around it. \ncreepy...", "ring_type": "abyss", "ring_vitality": 1.2},
+    "Ghoti": {"name": "Fish", "type": "weapon", "item_info": "reeks disgusting, but seems to never rot", "weapon_type": "fish", "weapon_damage": 15},
+    "GroßschwertGreatsword": {"name": "Greatsword", "type": "weapon", "item_info": "A badass sword that makes you look really cool.", "weapon_type": "greatsword", "weapon_damage": 25},
     
 }
 
-def get_random_monster(monsters):
-    which_monster = random.choice(list(monsters.values()))
-    return which_monster
+def get_random_monster(which_monster):
+    """
+    valid values for which_monster:\n
+    - "normal": monsters for enemy_encounter()\n
+    - "dungeon": dungeon monsters\n
+    """
+    if which_monster == "normal":
+        monster = random.choice(list(monsters.values()))
+    elif which_monster == "dungeon":
+        monster = random.choice(list(dungeon_monsters.values()))
+    return monster
 
-def get_random_item(items):
-    which_item = random.choice(list(items.values()))
+def get_random_item(which_items):
+    """
+    valid values for which_items:\n
+    - "from_big_pool": all items in the game\n
+    - "small_chest": items from small chests\n
+    """
+    if which_items == "from_big_pool":
+        which_item = random.choice(list(all_items.values()))
+    if which_items == "small_chest":
+        which_item = random.choice(list(items_from_small_chests.values()))
     return which_item
 
 class item:
