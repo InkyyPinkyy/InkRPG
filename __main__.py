@@ -30,8 +30,8 @@ def enemy_encounter(player, enemy):
 
             if enemy.hp > 0:
                 damage = random.uniform(
-                enemy.attack_damage * player.strength * 0.9,
-                enemy.attack_damage * player.strength * 1.1
+                enemy.attack_damage * player.strength * 0.5,
+                enemy.attack_damage * player.strength * 0.7
             )
                 player.hp -= round(damage)
                 print(f"The enemy is dealing {round(damage)} damage to you!")
@@ -59,14 +59,16 @@ def check_amount_player_xp(player):
         player.xp -= (player.level * 32)
         player.level += 1
         player.skillpoints += 1
+        player.hp = player.max_max_hp
         print(f"You reached level {player.level} and got a skillpoint!")
+        print(f"Also, your health got regenerated!")
 
 def show_player_stats(player):
         """shows the player's stats"""
         print(f"\n{player.name}'s stats:")
         print(f"Class: {player.name_of_player_class}")
         print(f"{round(player.hp)}/{round(player.max_max_hp)} HP")
-        print(f"Damage:", (player.attack_damage + player.weapon.weapon_damage) * player.strength)
+        print(f"Damage: {round((player.attack_damage + player.weapon.weapon_damage) * player.strength)}")
         print(f"Your weapon: {player.weapon}")
         print(f"Your armor: {player.armor}")
         print(f"Your ring: {player.ring}")
@@ -76,7 +78,7 @@ def show_player_stats(player):
         print(f"{player.skillpoints} skillpoints")
 
 def event_enemy_encounter(player):
-    monster_data = get_random_monster(monsters)
+    monster_data = get_random_monster("normal")
     enemy = Enemy(monster_data)
     enemy_encounter(player, enemy)
 
@@ -198,7 +200,7 @@ def main():
             do_inventory_shit(player)
         elif choice == '3':
             player.save_game()
-            print("Saved game!")
+            print("Game saved!")
         elif choice == '4':
             show_player_stats(player)
         elif choice == '5':

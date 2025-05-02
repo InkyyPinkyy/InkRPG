@@ -17,7 +17,7 @@ class Player:
         self.armor = None
         self.ring = None
         self.necklace = None
-        self.vitality = player_class['vitality'] + self.ring.ring_vitality
+        self.vitality = player_class['vitality'] + self.ring.ring_vitality if self.ring else player_class['vitality']
         self.base_hp = player_class['hp'] 
         self.max_hp = player_class['hp']
         self.max_max_hp = self.max_hp * self.vitality

@@ -18,3 +18,4 @@ this Repository, my first own rpg is making its way to... maybe someone who will
 - [x] rewriting the game in english and making it the standard edition
 - [ ] reworking of __main__
 - [ ] implementing player.class as player.species and introducing player.class as in like warrior, mage or assassin
+- [ ] reworking of the weapon system
