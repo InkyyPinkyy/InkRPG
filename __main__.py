@@ -59,19 +59,19 @@ def check_amount_player_xp(player):
         player.xp -= (player.level * 32)
         player.level += 1
         player.skillpoints += 1
+autosaving_feature
         player.max_max_hp += 5
         player.hp = player.max_max_hp        
         print(f"You reached level {player.level} and got a skillpoint!")
         print(f"Your max HP increased by 5!")
         print(f"Your hp had been restored!")
 
-
 def show_player_stats(player):
         """shows the player's stats"""
         print(f"\n{player.name}'s stats:")
         print(f"Class: {player.name_of_player_class}")
         print(f"{round(player.hp)}/{round(player.max_max_hp)} HP")
-        print(f"Damage:", (player.attack_damage + player.weapon.weapon_damage) * player.strength)
+        print(f"Damage: {round((player.attack_damage + player.weapon.weapon_damage) * player.strength)}")
         print(f"Your weapon: {player.weapon}")
         print(f"Your armor: {player.armor}")
         print(f"Your ring: {player.ring}")
@@ -225,7 +225,7 @@ def main():
             do_inventory_shit(player)
         elif choice == '3':
             player.save_game()
-            print("Saved game!")
+            print("Game saved!")
         elif choice == '4':
             show_player_stats(player)
         elif choice == '5':

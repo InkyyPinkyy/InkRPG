@@ -17,6 +17,7 @@ this Repository, my first own rpg is making its way to... maybe someone who will
 - [x] autosaving feature
 - [x] rewriting the game in english and making it the standard edition
 - [ ] reworking of __main__
-- [ ] implementing player.class as player.species and introducing player.class as  
-      in likewarrior, mage or assassin
 - [ ] structured save-file, away from single-line code
+- [ ] implementing player.class as player.species and introducing player.class as in like warrior, mage or assassin
+- [ ] reworking of the weapon system
+
