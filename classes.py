@@ -17,13 +17,16 @@ class Player:
         self.armor = None
         self.ring = None
         self.necklace = None
-        self.vitality = player_class['vitality'] + self.ring.ring_vitality
+        self.vitality = player_class['vitality'] + self.ring.ring_vitality if self.ring else player_class['vitality']
         self.base_hp = player_class['hp'] 
         self.max_hp = player_class['hp']
         self.max_max_hp = self.max_hp * self.vitality
         self.hp = self.max_max_hp
         self.strength = player_class['strength']
         self.attack_damage = player_class['attack_damage']
+
+        #settings, Quests and more:
+        self.autosave_on = False
 
     def player_attack(self, target, weapon):
         self.target = target
@@ -111,11 +114,16 @@ class Player:
         }
         with open(f"{self.name}_save.json", "w") as file:
             json.dump(save_data, file)
+        settings_data = {
+            'autosave_on' : self.autosave_on,
+        }
+        with open(f"{self.name}_settings.json", "w") as file:
+            json.dump(settings_data, file)
 
     @staticmethod
-    def load_game(file_name):
-        if os.path.exists(file_name):
-            with open(file_name, "r") as file:
+    def load_game(player_file_name, settings_file_name):
+        if os.path.exists(player_file_name) and os.path.exists(settings_file_name):
+            with open(player_file_name, "r") as file:
                 data = json.load(file)
                 player_class = data['player_class']
                 player = Player(data['name'],player_class)
@@ -153,12 +161,13 @@ class Player:
                 player.necklace = necklace(**data['necklace']) if data['necklace'] else None
                 print(f"Game-file of {player.name} was succesfully loaded!")
                 return player
+            with open(settings_file_name, "r") as file:
+                data = json.load(file)
+                self.autosave_on = data['autosave_on']
+                print(f"Settings-file of {player.name} was succesfully loaded!")
         else:
             # mention of the not existing file is in main() function
             return None
-    
-    
-        
         
 CLASSES = {
     "Elf" : {"name_of_player_class": "Elf", "hp": 110, "vitality": 1, "attack_damage": 18, "strength": 1.3},
