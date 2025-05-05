@@ -59,9 +59,12 @@ def check_amount_player_xp(player):
         player.xp -= (player.level * 32)
         player.level += 1
         player.skillpoints += 1
-        player.hp = player.max_max_hp
+autosaving_feature
+        player.max_max_hp += 5
+        player.hp = player.max_max_hp        
         print(f"You reached level {player.level} and got a skillpoint!")
-        print(f"Also, your health got regenerated!")
+        print(f"Your max HP increased by 5!")
+        print(f"Your hp had been restored!")
 
 def show_player_stats(player):
         """shows the player's stats"""
@@ -76,6 +79,23 @@ def show_player_stats(player):
         print(f"Your level: {player.level}")
         print(f"{player.xp}/{player.level * 32} XP until the next level")
         print(f"{player.skillpoints} skillpoints")
+
+def go_to_settings(player):
+    """shows the settings menu"""
+    print(f"\nSettings:")
+    print(f"1. Change autosave on/off")
+    print(f"2. exit settings")
+
+    choice = input("Choice: ")
+
+    if choice == '1':
+        player.autosave_on = not player.autosave_on
+        print(f"Autosave is now {'on' if player.autosave_on else 'off'}")
+    elif choice == '2':
+        return
+    else:
+        print(f"Invalid choice!")
+        return
 
 def event_enemy_encounter(player):
     monster_data = get_random_monster("normal")
@@ -170,9 +190,9 @@ def choose_class():
 def main():
     if input(f"new game (n) or load an existing game (l)?\n").lower() == 'l':
         name = input("Gib deinen Spielernamen ein: ")
-        player = Player.load_game(f"{name}_save.json")
+        player = Player.load_game(f"{name}_save.json", f"{name}_settings.json")
         if not player:
-            print(f"invalid name, save-file does not exist.\nPlease try again or start a new game.")
+            print(f"invalid name, save-file, settings-file or both of them does/do not exist.\nPlease try again or start a new game.")
             return
         print(f"Welcome back, {player.name}!")
     else:
@@ -186,16 +206,21 @@ def main():
         player.hp = player.max_max_hp
 
     while True:
+
         print(f"\nWhat do you want to do?")
         print(f"1. Explore")
         print(f"2. Inventory")
         print(f"3. Save the game")
         print(f"4. Look at your stats")
-        print(f"5. Quit")
+        print(f"5. Settings")
+        print(f"6. Quit")
         choice = input("Choice: ")
 
         if choice == '1':
             event_enemy_encounter(player)
+            if player.autosave_on ==True:
+                player.save_game()
+                print(f"Autosaved game!")            
         elif choice == '2':
             do_inventory_shit(player)
         elif choice == '3':
@@ -204,7 +229,10 @@ def main():
         elif choice == '4':
             show_player_stats(player)
         elif choice == '5':
+            go_to_settings(player)
+        elif choice == '6':
             print("Closed game!")
             break
+
 
 main()
