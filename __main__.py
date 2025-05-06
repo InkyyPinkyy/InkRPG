@@ -59,7 +59,6 @@ def check_amount_player_xp(player):
         player.xp -= (player.level * 32)
         player.level += 1
         player.skillpoints += 1
-autosaving_feature
         player.max_max_hp += 5
         player.hp = player.max_max_hp        
         print(f"You reached level {player.level} and got a skillpoint!")
@@ -138,7 +137,11 @@ def consume_item(player):
         item = consumable_items[wahl]
         if 0 <= wahl < len(player.inventory):
             if item.consumable_type == "health":
-                player.hp += item.stats_player_gets
+                if player.hp + item.stats_player_gets > player.max_max_hp:
+                    item.stats_player_gets = player.max_max_hp - player.hp
+                    player.hp += item.stats_player_gets
+                else:
+                    player.hp += item.stats_player_gets
                 print(f"{player.name} consumed {item.name} and got {item.stats_player_gets} HP!")
                 player.inventory.remove(item)
             elif item.consumable_type == "strength":
@@ -201,8 +204,10 @@ def main():
         player = Player(name, CLASSES[class_name])
 
         Knife = weapon("Knife", "weapon","A small knife that you found in your pocket", "knife", 5)
+        HealingPotion = consumable("Healing Potion", "consumable", "A tube out of glass with a red liquid inside", "health", 100)
         player.weapon = Knife
         player.inventory.append(Knife)
+        player.inventory.append(HealingPotion)
         player.hp = player.max_max_hp
 
     while True:
