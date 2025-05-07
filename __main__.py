@@ -137,7 +137,10 @@ def consume_item(player):
         item = consumable_items[wahl]
         if 0 <= wahl < len(player.inventory):
             if item.consumable_type == "health":
-                if player.hp + item.stats_player_gets > player.max_max_hp:
+                if player.hp == player.max_max_hp:
+                    print(f"{player.name} is already at max HP!")
+                    return
+                elif player.hp + item.stats_player_gets > player.max_max_hp:
                     item.stats_player_gets = player.max_max_hp - player.hp
                     player.hp += item.stats_player_gets
                 else:
