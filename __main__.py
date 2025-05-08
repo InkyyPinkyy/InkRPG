@@ -84,10 +84,10 @@ class Game:
             choice = input("Choice: ")
 
             if choice == '1':
-                Game.event_enemy_encounter(player)
                 if player.autosave_on ==True:
                     player.save_game()
-                    print(f"Autosaved game!")            
+                    print(f"Autosaved game!")
+                Game.event_enemy_encounter(player)           
             elif choice == '2':
                 player.do_inventory_shit()
             elif choice == '3':
