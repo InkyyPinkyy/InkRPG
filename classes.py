@@ -2,6 +2,8 @@ import random
 import os
 import json
 
+from events import *
+
 class Player:
     def __init__(self, name,player_class):
         self.name = name
@@ -333,15 +335,6 @@ class Player:
         else:
             # mention of the not existing file is in main() function
             return None
-        
-CLASSES = {
-    "Elf" : {"name_of_player_class": "Elf", "hp": 110, "vitality": 1, "attack_damage": 18, "strength": 1.3},
-    "Demon" : {"name_of_player_class": "Demon", "hp": 125, "vitality": 1, "attack_damage": 25, "strength": 1.5},
-    "Dwarf" : {"name_of_player_class": "Dwarf", "hp": 150, "vitality": 1.3, "attack_damage": 15, "strength": 1.3},
-    "Orc" : {"name_of_player_class": "Orc", "hp": 120, "vitality": 1, "attack_damage": 23, "strength": 1.5},
-    "Human" : {"name_of_player_class": "Human", "hp": 100, "vitality": 1.5, "attack_damage": 20, "strength": 1},
-    "Inchling" : {"name_of_player_class": "Inchling", "hp": 80, "vitality": 1.5, "attack_damage": 15, "strength": 1.5}
-}
 
 class Enemy:
     def __init__(self, which_monster):
@@ -360,86 +353,6 @@ class Enemy:
 
     def __str__(self):
         return f"{self.name} (HP: {self.hp}, Attack: {self.attack_damage})"
-
-monsters = {
-    "Dragon" : {"name": "Dragon","hp": 220,"attack_damage": 25},
-    "Skeleton" : {"name": "Skeleton","hp": 70,"attack_damage": 18},
-    "Orc" : {"name": "Orc","hp": 170,"attack_damage": 20},
-    "Phantom" : {"name": "Phantom","hp": 130,"attack_damage": 19},
-    "Ghost" : {"name": "Ghost","hp": 120,"attack_damage": 15},
-    "Zombie" : {"name": "Zombie","hp": 135,"attack_damage": 20},
-    "Sheep" : {"name": "Sheep","hp": 30,"attack_damage": 10},
-    "Bandit" : {"name": "Bandit","hp": 140,"attack_damage": 19}
-}
-
-dungeon_monsters = {
-    "Mimic" : {"name": "Mimic", "hp": 180, "attack_damage": 30},
-}
-
-events = [
-    "event_enemy_encounter",
-    "event_wandering_trader_encounter",
-    "event_player_finds_village",
-    "event_player_finds_dungeon",
-    "event_player_finds_random_house",
-    "event_npc_encounter"
-    "event_player_finds_ruins",
-    "event_payer_finds_ancient_ruins",
-    "event_player_finds_camp",
-    "event_player_finds_hostile_camp",
-    "event_player_random_thoughts",
-    "event_bird_shits_on_player",
-    "event_random_animal",
-    "event_player_finds_farmhouse",
-    "event_player_finds_abandoned_farmhouse",
-    "event_player_finds_herb",
-    "event_player_finds_city",
-    "event_player_finds_npc_getting_attacked",
-
-
-]
-
-all_items = {
-    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "daggger", "weapon_damage": 4},
-    "Chalice": {"name": "Chalice", "type": "item", "item_info": "A mysterious, golden Chalice that you found."},
-    "Ring of the abyss": {"name": "Ring of the abyss", "type": "ring", "item_info": "This ring is emitting an aura that seems \nto draw in everything around it. \ncreepy...", "ring_type": "abyss", "ring_vitality": 1.2},
-    "Ghoti": {"name": "Fish", "type": "weapon", "item_info": "reeks disgusting, but seems to never rot", "weapon_type": "fish", "weapon_damage": 15},
-    "Greatsword": {"name": "Greatsword", "type": "weapon", "item_info": "A badass sword that makes you look really cool.", "weapon_type": "greatsword", "weapon_damage": 25},
-    "Healing Potion": {"name": "Healing Potion", "type": "consumable", "item_info": "A potion that heals you for 50 HP.", "consumable_type": "health", "stats_player_gets": 50},
-}
-
-items_from_small_chests = {
-    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "daggger", "weapon_damage": 4},
-    "Chalice": {"name": "Chalice", "type": "item", "item_info": "A mysterious, golden Chalice that you found."},
-    "Ring of the abyss": {"name": "Ring of the abyss", "type": "ring", "item_info": "This ring is emitting an aura that seems \nto draw in everything around it. \ncreepy...", "ring_type": "abyss", "ring_vitality": 1.2},
-    "Ghoti": {"name": "Fish", "type": "weapon", "item_info": "reeks disgusting, but seems to never rot", "weapon_type": "fish", "weapon_damage": 15},
-    "Greatsword": {"name": "Greatsword", "type": "weapon", "item_info": "A badass sword that makes you look really cool.", "weapon_type": "greatsword", "weapon_damage": 25},
-    
-}
-
-def get_random_monster(which_monster):
-    """
-    valid values for which_monster:\n
-    - "normal": monsters for enemy_encounter()\n
-    - "dungeon": dungeon monsters\n
-    """
-    if which_monster == "normal":
-        monster = random.choice(list(monsters.values()))
-    elif which_monster == "dungeon":
-        monster = random.choice(list(dungeon_monsters.values()))
-    return monster
-
-def get_random_item(which_items):
-    """
-    valid values for which_items:\n
-    - "from_big_pool": all items in the game\n
-    - "small_chest": items from small chests\n
-    """
-    if which_items == "from_big_pool":
-        which_item = random.choice(list(all_items.values()))
-    if which_items == "small_chest":
-        which_item = random.choice(list(items_from_small_chests.values()))
-    return which_item
 
 class item:
     def __init__(self, name, type, item_info):
@@ -523,21 +436,3 @@ dungeon_sizes = {
         ["I1", "I2", "I3", "I4", "I5"]
         ],
 }
-
-
-
-class Dungeon:
-    def __init__(self, name, dungeon_size):
-        self.name = name
-        self.dungeon_size = "" # "small", "medium" or "large"
-
-        # The number of rooms in the Dungeon is randomly selected between 50% and 100% of the total number of rooms in the dungeon size
-        self.num_rooms = random.randint(int((len(dungeon_sizes[dungeon_size]) * len(dungeon_sizes[dungeon_size][0])) * 0.5), int(len(dungeon_sizes[dungeon_size]) * len(dungeon_sizes[dungeon_size][0])))
-
-class DungeonRoom:
-    def __init__(self, room_name, room_type):
-        self.room_name = room_name
-        self.room_type = room_type # "enemy", "treasure", "trap", "empty"
-        self.room_description = "" # description of the room
-        self.room_items = [] # items in the room
-        self.room_monsters = [] # monsters in the room

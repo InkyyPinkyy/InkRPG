@@ -12,11 +12,12 @@ this Repository, my first own rpg is making its way to... maybe someone who will
 
 ### Here are some things that I want to implement:
 - [ ] A lot of new events like dungeons, villages and npc encounters
-- [ ] consumable items like healing potions
+- [x] consumable items like healing potions
 - [ ] reworking the inventory a little bit
 - [x] autosaving feature
 - [x] rewriting the game in english and making it the standard edition
-- [ ] reworking of __main__
+- [x] reworking of __main__
+- [x] new files for easier accessibility
 - [ ] structured save-file, away from single-line code
 - [ ] implementing player.class as player.species and introducing player.class as in like warrior, mage or assassin
 - [ ] reworking of the weapon system
