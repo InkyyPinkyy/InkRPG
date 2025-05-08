@@ -28,12 +28,102 @@ class Player:
         #settings, Quests and more:
         self.autosave_on = False
 
-    def player_attack(self, target, weapon):
-        self.target = target
-        final_damage_dealt = (self.attack_damage + weapon.weapon_damage) * self.strength
-        target.hp -= final_damage_dealt
-        print(f"{self.name} attacks {target.name} and deals {final_damage_dealt} damage!")
-        print(f"{target.name} still has {target.hp} HP!")
+    def show_player_stats(self):
+        """shows the player's stats"""
+        print(f"\n{self.name}'s stats:")
+        print(f"Class: {self.name_of_player_class}")
+        print(f"{round(self.hp)}/{round(self.max_max_hp)} HP")
+        print(f"Damage: {round((self.attack_damage + self.weapon.weapon_damage) * self.strength)}")
+        print(f"Your weapon: {self.weapon}")
+        print(f"Your armor: {self.armor}")
+        print(f"Your ring: {self.ring}")
+        print(f"Your necklace: {self.necklace}")
+        print(f"Your level: {self.level}")
+        print(f"{self.xp}/{self.level * 32} XP until the next level")
+        print(f"{self.skillpoints} skillpoints")
+
+    def check_amount_self_xp(self):
+        while self.xp >= (self.level * 32):
+            self.xp -= (self.level * 32)
+            self.level += 1
+            self.skillpoints += 1
+            self.max_max_hp += 5
+            self.hp = self.max_max_hp        
+            print(f"You reached level {self.level} and got a skillpoint!")
+            print(f"Your max HP increased by 5!")
+            print(f"Your hp had been restored!")
+
+    def go_to_settings(self):
+        """shows the settings menu"""
+        print(f"\nSettings:")
+        print(f"1. Change autosave on/off")
+        print(f"2. exit settings")
+    
+        choice = input("Choice: ")
+    
+        if choice == '1':
+            self.autosave_on = not self.autosave_on
+            print(f"Autosave is now {'on' if self.autosave_on else 'off'}")
+        elif choice == '2':
+            return
+        else:
+            print(f"Invalid choice!")
+            return
+
+    def player_attack(self, target):
+        try: damage = random.uniform(
+            ((self.attack_damage + self.weapon.weapon_damage) * self.strength) * 0.9,
+            ((self.attack_damage + self.weapon.weapon_damage) * self.strength) * 1.1
+            )
+        except: damage = random.uniform(
+            ((self.attack_damage) * self.strength) * 0.9,
+            ((self.attack_damage) * self.strength) * 1.1
+            )
+        target.hp -= round(damage)
+        # (f"{damage:.2f
+        print(f"You are dealing {round(damage)} damage to the {target.name}!")
+        if target.hp > 0:
+            damage = random.uniform(
+            target.attack_damage * self.strength * 0.5,
+            target.attack_damage * self.strength * 0.7
+        )
+            self.hp -= round(damage)
+            print(f"The target is dealing {round(damage)} damage to you!")
+
+    def enemy_encounter(self, enemy):
+        """
+        initialises a battle with the player and an enemy.
+        There is an option to flee, where the fight gets
+        cancelled. The damage of the enemy scales with
+        the players strength.
+        """
+        print(f"\nA {enemy.name} is attacking you!")
+
+        while self.hp > 0 and enemy.hp > 0:
+            print(f"\n{self.name}: {self.hp}/{self.max_max_hp} HP")
+            print(f"{enemy.name}: {enemy.hp}/{enemy.max_hp} HP")
+
+            action = input("Attack (a) or flee (f)? ")
+            if action.lower() == 'a':
+                self.player_attack(enemy)
+
+            elif action.lower() == 'f':
+                print("You fled!")
+                return
+
+        if self.hp > 0:
+            print(f"You won gainst the {enemy.name}!")
+            gold_earned = random.randint(10, 20)
+            self.gold += gold_earned
+            print(f"You got {gold_earned} gold!")
+            xp_earned = random.randint(enemy.max_hp // 10, enemy.max_hp // 3)
+            self.xp += xp_earned
+            print(f"You  got {xp_earned} XP!")
+            self.check_amount_self_xp()
+
+        else:
+            print("You lost...")
+            exit()
 
     def pick_up_item(self, item):
         self.inventory.append(item)
@@ -89,6 +179,81 @@ class Player:
                 print(f"{idx}. {item}")
         else:
             print("Your inventory is empty!")
+
+    def choose_equipment(self):
+        self.show_inventory("weapons_armor_rings_necklaces")        
+        print(f"Choose an item to equip")
+
+        try:
+            wahl = int(input(f"\nProvide the number of the item you want to equip: ")) -1
+            if 0 <= wahl < len(self.inventory):
+                item = self.inventory[wahl]
+                if item.type == "weapon":
+                    self.weapon = item
+                    print(f"{self.name} equipped '{item.name}' as their weapon!")
+                elif item.type == "armor":
+                    self.armor = item
+                    print(f"{self.name} equipped '{item.name}' as their armor!")
+                elif item.type == "ring":
+                    self.ring = item
+                    print(f"{self.name} equipped '{item.name}' as their ring!")
+                elif item.type == "necklace":
+                    self.necklace = item
+                    print(f"{self.name} equipped '{item.name}' as their necklace!")
+                else:
+                    print(f"This item can't be equipped!")
+            else:
+                print(f"invalid selection")
+        except ValueError:
+            print(f"Please provide a valid number")
+
+    def consume_item(self):
+        consumable_items = self.show_inventory("consumables")
+        wahl = input(f"\nProvide the number of the item you want to consume or exit (e) ")
+        if wahl.lower() == 'e':
+            return
+        try: 
+            wahl -= 1       
+            item = consumable_items[wahl]
+            if 0 <= wahl < len(self.inventory):
+                if item.consumable_type == "health":
+                    if self.hp == self.max_max_hp:
+                        print(f"{self.name} is already at max HP!")
+                        return
+                    elif self.hp + item.stats_self_gets > self.max_max_hp:
+                        item.stats_self_gets = self.max_max_hp - self.hp
+                        self.hp += item.stats_self_gets
+                    else:
+                        self.hp += item.stats_self_gets
+                    print(f"{self.name} consumed {item.name} and got {item.stats_self_gets} HP!")
+                    self.inventory.remove(item)
+                elif item.consumable_type == "strength":
+                    self.strength += item.stats_self_gets
+                    print(f"{self.name} consumed {item.name} and got {item.stats_self_gets} strength!")
+                    self.inventory.remove(item)
+                elif item.consumable_type == "increase_max_health":
+                    self.max_hp += item.stats_self_gets
+                    print(f"{self.name} consumed {item.name} and got additional {item.stats_self_gets} max HP!")
+                    self.inventory.remove(item)
+                elif item.consumable_type == "increase_attack_damage":
+                    self.attack_damage += item.stats_self_gets
+                    print(f"{self.name} consumed {item.name} and got additional {item.stats_self_gets} strength!")
+                    self.inventory.remove(item)
+            else:
+                return
+        except ValueError:
+            print(f"Please provide a valid number")
+            return
+
+    def do_inventory_shit(self):
+        self.show_inventory("everything")
+        action = input("\nEquip item (1), consume item (2) or return (3)? ")
+        if action.lower() == '1':
+            self.choose_equipment()
+        elif action.lower() == '2':
+            self.consume_item()
+        elif action.lower() == '3':
+            return
 
     def save_game(self):
         save_data = {
