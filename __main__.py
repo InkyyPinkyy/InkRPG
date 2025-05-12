@@ -4,38 +4,9 @@ from events import *
 
 class Game:
     
-    def get_random_monster(which_monster):
-        """
-        valid values for which_monster:\n
-        - "normal": monsters for enemy_encounter()\n
-        - "dungeon": dungeon monsters\n
-        """
-        if which_monster == "normal":
-            monster = random.choice(list(monsters.values()))
-        elif which_monster == "dungeon":
-            monster = random.choice(list(dungeon_monsters.values()))
-        return monster
-
-    def get_random_item(which_items):
-        """
-        valid values for which_items:\n
-        - "from_big_pool": all items in the game\n
-        - "small_chest": items from small chests\n
-        """
-        if which_items == "from_big_pool":
-            which_item = random.choice(list(all_items.values()))
-        if which_items == "small_chest":
-            which_item = random.choice(list(items_from_small_chests.values()))
-        return which_item
-    
     def do_random_event(events):
         random_event = random.choice(list(events))()
         return random_event    
-    
-    def event_enemy_encounter(player):
-        monster_data = Game.get_random_monster("normal")
-        enemy = Enemy(monster_data)
-        player.enemy_encounter(enemy)
 
     def welcome_player():
         print(f"\nWelcome to your new adventure!")

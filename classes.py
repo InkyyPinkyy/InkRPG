@@ -2,7 +2,8 @@ import random
 import os
 import json
 
-from events import *
+#from events import *
+from lists_and_dicts import *
 
 class Player:
     def __init__(self, name,player_class):
@@ -343,6 +344,18 @@ class Enemy:
         self.max_hp = self.hp
         self.attack_damage = which_monster['attack_damage']
 
+    def get_random_monster(which_monster):
+        """
+        valid values for which_monster:\n
+        - "normal": monsters for enemy_encounter()\n
+        - "dungeon": dungeon monsters\n
+        """
+        if which_monster == "normal":
+            monster = random.choice(list(monsters.values()))
+        elif which_monster == "dungeon":
+            monster = random.choice(list(dungeon_monsters.values()))
+        return monster
+
     def enemy_attack(self, target, weapon):
         self.target = target
         final_damage_dealt = (self.attack_damage + weapon.weapon_damage) * (Player.level * 0.7)
@@ -362,6 +375,20 @@ class item:
 
     def __str__(self):
         return f"{self.name} ({self.type}): \n{self.item_info}"
+    
+    def get_random_item(which_items):
+        """
+        valid values for which_items:\n
+        - "from_big_pool": all items in the game\n
+        - "small_chest": items from small chests\n
+        """
+        if which_items == "from_big_pool":
+            which_item = random.choice(list(all_items.values()))
+        if which_items == "small_chest":
+            which_item = random.choice(list(items_from_small_chests.values()))
+        return which_item
+    
+    
     
 class weapon(item):
     def __init__(self, name, type, item_info, weapon_type, weapon_damage):

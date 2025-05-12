@@ -5,6 +5,11 @@ from classes import *
 from lists_and_dicts import *
 from dungeon import *
 
+def event_enemy_encounter(player):
+    monster_data = Enemy.get_random_monster("normal")
+    enemy = Enemy(monster_data)
+    player.enemy_encounter(enemy)
+
 events = [
     "event_enemy_encounter",
     "event_wandering_trader_encounter",
