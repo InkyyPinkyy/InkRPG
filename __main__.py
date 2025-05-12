@@ -2,11 +2,7 @@ from lists_and_dicts import *
 from classes import *
 from events import *
 
-class Game:
-    
-    def do_random_event(events):
-        random_event = random.choice(list(events))()
-        return random_event    
+class Game:    
 
     def welcome_player():
         print(f"\nWelcome to your new adventure!")
@@ -58,7 +54,7 @@ class Game:
                 if player.autosave_on ==True:
                     player.save_game()
                     print(f"Autosaved game!")
-                Game.event_enemy_encounter(player)           
+                event_enemy_encounter(player)           
             elif choice == '2':
                 player.do_inventory_shit()
             elif choice == '3':
