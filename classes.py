@@ -3,6 +3,7 @@ import os
 import json
 
 #from events import *
+from dungeon import *
 from lists_and_dicts import *
 
 class Player:
@@ -337,6 +338,35 @@ class Player:
             # mention of the not existing file is in main() function
             return None
 
+class NPC:
+    def __init__(self, which_npc):
+        self.name = which_npc[str('name')]
+        self.race_name = which_npc['race_name']
+        # same as player-races
+        self.profession = which_npc['profession']
+
+        self.profession_specialization = which_npc['profession_specialization']
+        self.hp = which_npc['hp']
+        self.max_hp = self.hp
+
+        self.inventory = []
+
+class Merchant(NPC):
+    def __init__(self, which_merchant):
+        super().__init__(which_merchant)
+        self.gold = which_merchant['gold']
+        self.items_for_sale = which_merchant['items_for_sale']
+        self.items_to_buy = which_merchant['items_to_buy']
+
+    def show_items_for_sale(self):
+        print(f"\n{self.name}'s items for sale:")
+        for idx, item in enumerate(self.items_for_sale, start = 1):
+            print(f"{idx}. {item}")
+    
+    def show_items_to_buy(self):
+        print(f"\n{self.name}'s items to buy:")
+        for idx, item in enumerate(self.items_to_buy, start = 1):
+            print(f"{idx}. {item}")
 class Enemy:
     def __init__(self, which_monster):
         self.name = which_monster[str('name')]
@@ -432,39 +462,6 @@ class consumable(item):
     def __str__(self):
         return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n{self.item_info}"
     
-dungeon_sizes = {
-    "small": [ # 15 rooms
-        ["A1", "A2", "A3"],
-        ["B1", "B2", "B3"],
-        ["C1", "C2", "C3"],
-        ["D1", "D2", "D3"],
-        ["E1", "E2", "E3"]
-        ],
-
-    "medium": [ # 28 rooms
-        ["A1", "A2", "A3", "A4"],
-        ["B1", "B2", "B3", "B4"],
-        ["C1", "C2", "C3", "C4"],
-        ["D1", "D2", "D3", "D4"],
-        ["E1", "E2", "E3", "E4"],
-        ["F1", "F2", "F3", "F4"],
-        ["G1", "G2", "G3", "G4"]
-        ],
-
-    "large": [ # 45 rooms
-        ["A1", "A2", "A3", "A4", "A5"],
-        ["B1", "B2", "B3", "B4", "B5"],
-        ["C1", "C2", "C3", "C4", "C5"],
-        ["D1", "D2", "D3", "D4", "D5"],
-        ["E1", "E2", "E3", "E4", "E5"],
-        ["F1", "F2", "F3", "F4", "F5"],
-        ["G1", "G2", "G3", "G4", "G5"],
-        ["H1", "H2", "H3", "H4", "H5"],
-        ["I1", "I2", "I3", "I4", "I5"]
-        ],
-}
-
-
 
 class Dungeon:
     def __init__(self, name, dungeon_size):
