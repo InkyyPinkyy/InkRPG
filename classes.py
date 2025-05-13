@@ -339,13 +339,34 @@ class Player:
             return None
 
 class NPC:
-    def __init__(self, name, race_name, profession_name):
-        self.name = name
-        self.race_name = race_name
-        self.profession_name = profession_name
-        self.gold = random.randint(0, 1000)
-        self.hp = random.randint(0, 100)
+    def __init__(self, which_npc):
+        self.name = which_npc[str('name')]
+        self.race_name = which_npc['race_name']
+        # same as player-races
+        self.profession = which_npc['profession']
+
+        self.profession_specialization = which_npc['profession_specialization']
+        self.hp = which_npc['hp']
         self.max_hp = self.hp
+
+        self.inventory = []
+
+class Merchant(NPC):
+    def __init__(self, which_merchant):
+        super().__init__(which_merchant)
+        self.gold = which_merchant['gold']
+        self.items_for_sale = which_merchant['items_for_sale']
+        self.items_to_buy = which_merchant['items_to_buy']
+
+    def show_items_for_sale(self):
+        print(f"\n{self.name}'s items for sale:")
+        for idx, item in enumerate(self.items_for_sale, start = 1):
+            print(f"{idx}. {item}")
+    
+    def show_items_to_buy(self):
+        print(f"\n{self.name}'s items to buy:")
+        for idx, item in enumerate(self.items_to_buy, start = 1):
+            print(f"{idx}. {item}")
 class Enemy:
     def __init__(self, which_monster):
         self.name = which_monster[str('name')]
