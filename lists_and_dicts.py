@@ -22,8 +22,17 @@ dungeon_monsters = {
     "Mimic" : {"name": "Mimic", "hp": 180, "attack_damage": 30},
 }
 
+weapon_rarities = {
+    "common": {"name": "Common", "chance": 0.5},
+    "uncommon": {"name": "Uncommon", "chance": 0.3},
+    "rare": {"name": "Rare", "chance": 0.15},
+    "epic": {"name": "Epic", "chance": 0.1},
+    "legendary": {"name": "Legendary", "chance": 0.05},
+    "godly": {"name": "Godly", "chance": 0.01}
+}
+
 all_items = {
-    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "daggger", "weapon_damage": 4},
+    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "dagger", "weapon_damage": 4},
     "Chalice": {"name": "Chalice", "type": "item", "item_info": "A mysterious, golden Chalice that you found."},
     "Ring of the abyss": {"name": "Ring of the abyss", "type": "ring", "item_info": "This ring is emitting an aura that seems \nto draw in everything around it. \ncreepy...", "ring_type": "abyss", "ring_vitality": 1.2},
     "Ghoti": {"name": "Fish", "type": "weapon", "item_info": "reeks disgusting, but seems to never rot", "weapon_type": "fish", "weapon_damage": 15},
@@ -32,7 +41,7 @@ all_items = {
 }
 
 items_from_small_chests = {
-    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "daggger", "weapon_damage": 4},
+    "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "dagger", "weapon_damage": 4},
     "Chalice": {"name": "Chalice", "type": "item", "item_info": "A mysterious, golden Chalice that you found."},
     "Ring of the abyss": {"name": "Ring of the abyss", "type": "ring", "item_info": "This ring is emitting an aura that seems \nto draw in everything around it. \ncreepy...", "ring_type": "abyss", "ring_vitality": 1.2},
     "Ghoti": {"name": "Fish", "type": "weapon", "item_info": "reeks disgusting, but seems to never rot", "weapon_type": "fish", "weapon_damage": 15},

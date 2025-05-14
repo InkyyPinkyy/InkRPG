@@ -6,6 +6,33 @@ import json
 from dungeon import *
 from lists_and_dicts import *
 
+class pcolors: # print-colors
+    PURPLE = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+
+    BACKGROUND_CYAN = '\033[46m'
+    BACKGROUND_PURPLE = '\033[45m'
+    BACKGROUND_BLUE = '\033[44m'
+    BACKGROUND_YELLOW = '\033[43m'
+    BACKGROUND_GREEN = '\033[42m'
+    BACKGROUND_RED = '\033[41m'
+    
+    DARK_CYAN = '\033[36m'
+    DARK_PURPLE = '\033[35m'
+    DARK_BLUE = '\033[34m'
+    DARK_YELLOW = '\033[33m'
+    DARK_GREEN = '\033[32m'
+    DARK_RED = '\033[31m'
+
+    END = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 class Player:
     def __init__(self, name,player_class):
         self.name = name
@@ -421,14 +448,37 @@ class item:
     
     
 class weapon(item):
-    def __init__(self, name, type, item_info, weapon_type, weapon_damage):
+    """legal values for weapon_type:\n
+        - dagger\n
+        - sword\n
+        - greatsword\n
+        - fish\n
+        - axe\n
+        - spear\n
+
+        legal values for weapon_element:\n
+        - fire\n
+        - water\n
+        - earth\n
+        - air\n
+        - decay
+        - blood\n
+        - void\n
+        - celestine\n
+        - corruption\n
+        - echo\n
+    """
+    def __init__(self, name, type, item_info, weapon_type, weapon_rarity, weapon_element, weapon_damage, enchantments = None):
         super().__init__(name, type, item_info)
         self.weapon_type = weapon_type
+        self.weapon_rarity = weapon_rarity
+        self.weapon_element = weapon_element
         self.weapon_damage = weapon_damage
+        self.enchantments = []
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.weapon_damage} Damage\n{self.item_info}"
-
+        return f"{self.name} ({self.type}, {self.weapon_type}): {self.weapon_damage} Damage\n{self.item_info}"
+Dagger
 class armor(item):
     def __init__(self, name, type, item_info, armor_type, armor_vitality):
         super().__init__(name, type, item_info)
@@ -461,20 +511,3 @@ class consumable(item):
 
     def __str__(self):
         return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n{self.item_info}"
-    
-
-class Dungeon:
-    def __init__(self, name, dungeon_size):
-        self.name = name
-        self.dungeon_size = "" # "small", "medium" or "large"
-
-        # The number of rooms in the Dungeon is randomly selected between 50% and 100% of the total number of rooms in the dungeon size
-        self.num_rooms = random.randint(int((len(dungeon_sizes[dungeon_size]) * len(dungeon_sizes[dungeon_size][0])) * 0.5), int(len(dungeon_sizes[dungeon_size]) * len(dungeon_sizes[dungeon_size][0])))
-
-class DungeonRoom:
-    def __init__(self, room_name, room_type):
-        self.room_name = room_name
-        self.room_type = room_type # "enemy", "treasure", "trap", "empty"
-        self.room_description = "" # description of the room
-        self.room_items = [] # items in the room
-        self.room_monsters = [] # monsters in the room
