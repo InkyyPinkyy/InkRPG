@@ -478,7 +478,7 @@ class weapon(item):
 
     def __str__(self):
         return f"{self.name} ({self.type}, {self.weapon_type}): {self.weapon_damage} Damage\n{self.item_info}"
-Dagger
+
 class armor(item):
     def __init__(self, name, type, item_info, armor_type, armor_vitality):
         super().__init__(name, type, item_info)
