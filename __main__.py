@@ -32,7 +32,7 @@ class Game:
             class_name = Game.choose_class()
             player = Player(name, CLASSES[class_name])
 
-            Knife = weapon("Knife", "weapon","A small knife that you found in your pocket", "knife", 5)
+            Knife = weapon("Knife", "weapon", "A small knife you found in your pocket", "dagger", "common", "starting weapon", 5)
             HealingPotion = consumable("Healing Potion", "consumable", "A tube out of glass with a red liquid inside", "health", 100)
             player.weapon = Knife
             player.inventory.append(Knife)

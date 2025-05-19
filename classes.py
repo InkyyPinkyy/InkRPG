@@ -173,7 +173,7 @@ class Player:
         """
         if which_items_to_show == "everything":
             print(f"\nYour inventory:")
-            print(f"{self.gold} Gold")            
+            print(f"{pcolors.YELLOW}{self.gold}{pcolors.END} Gold")            
             for idx, item in enumerate(self.inventory, start = 1):
                 print(f"{idx}. {item}")
         elif which_items_to_show == "weapons":
@@ -455,18 +455,9 @@ class weapon(item):
         - fish\n
         - axe\n
         - spear\n
-
-        legal values for weapon_element:\n
-        - fire\n
-        - water\n
-        - earth\n
-        - air\n
-        - decay
-        - blood\n
-        - void\n
-        - celestine\n
-        - corruption\n
-        - echo\n
+        - bow\n
+        - crossbow\n
+        - trident
     """
     def __init__(self, name, type, item_info, weapon_type, weapon_rarity, weapon_element, weapon_damage, enchantments = None):
         super().__init__(name, type, item_info)
@@ -475,6 +466,8 @@ class weapon(item):
         self.weapon_element = weapon_element
         self.weapon_damage = weapon_damage
         self.enchantments = []
+        self.durability = int
+        self.IsEnabled = True
 
     def __str__(self):
         return f"{self.name} ({self.type}, {self.weapon_type}): {self.weapon_damage} Damage\n{self.item_info}"

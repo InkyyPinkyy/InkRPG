@@ -23,12 +23,21 @@ dungeon_monsters = {
 }
 
 weapon_rarities = {
-    "common": {"name": "Common", "chance": 0.5},
-    "uncommon": {"name": "Uncommon", "chance": 0.3},
-    "rare": {"name": "Rare", "chance": 0.15},
-    "epic": {"name": "Epic", "chance": 0.1},
-    "legendary": {"name": "Legendary", "chance": 0.05},
-    "godly": {"name": "Godly", "chance": 0.01}
+    "common": {"name": "Common", "symbol": "*", "chance": 0.5},
+    "uncommon": {"name": "Uncommon", "symbol": "**", "chance": 0.3},
+    "rare": {"name": "Rare", "symbol": "***", "chance": 0.15},
+    "epic": {"name": "Epic", "symbol": "****", "chance": 0.1},
+    "legendary": {"name": "Legendary", "symbol": "*****", "chance": 0.05},
+    "godly": {"name": "Godly", "symbol": "⋈", "chance": 0.01}
+}
+
+weapon_elementss = {
+    # common
+    "fire": {"name": "Fire", "unlocked_on_rarity": "common", "possible_enchantments": "fire_enchantments", "good_against": ["earth", "corruption", "decay"], "bad_against": ["air", "water"]},
+}
+
+weapon_elements = {
+    
 }
 
 all_items = {
