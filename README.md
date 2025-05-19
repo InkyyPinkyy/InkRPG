@@ -21,6 +21,7 @@ this Repository, my first own rpg is making its way to... maybe someone who will
 - [ ] structured save-file, away from single-line code
 - [ ] implementing player.class as player.species and introducing player.class as in like warrior, mage or assassin
 - [ ] reworking of the weapon system
+    - rarities
     - weapon elements
     - durability
     - enchantments
