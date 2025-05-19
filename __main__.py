@@ -14,7 +14,7 @@ class Game:
     def choose_class():
         print(f"\nChoose a class:")
         for i, c in enumerate(CLASSES.keys(), 1):
-            print(f"{i}. {c}")
+            print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}")
         choice = int(input(f"Your choice: "))
         class_name = list(CLASSES.keys())[choice - 1]
         return class_name
@@ -47,7 +47,7 @@ class Game:
             print(f"3. Save the game")
             print(f"4. Look at your stats")
             print(f"5. Settings")
-            print(f"6. Quit")
+            print(f"{pcolors.RED}6. Quit{pcolors.END}")
             choice = input("Choice: ")
 
             if choice == '1':
