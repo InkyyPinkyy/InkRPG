@@ -1,6 +1,7 @@
 from lists_and_dicts import *
 from classes import *
 from events import *
+from pyscript import document
 
 class Game:    
 
@@ -38,6 +39,7 @@ class Game:
             player.inventory.append(Knife)
             player.inventory.append(HealingPotion)
             player.hp = player.max_max_hp
+            output_div = document.querySelector("#output")
 
         while True:
 
@@ -47,6 +49,7 @@ class Game:
             print(f"3. Save the game")
             print(f"4. Look at your stats")
             print(f"5. Settings")
+            output_div.innerText = "Super Mario"
             print(f"{pcolors.RED}6. Quit{pcolors.END}")
             choice = input("Choice: ")
 
