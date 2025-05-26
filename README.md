@@ -1,31 +1,104 @@
-# This is my first repo
-Here, I will start to develop my text-based rpg which does not have a name at this given point of time.  
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python Version">
+  <img src="https://img.shields.io/badge/Status-Work%20In%20Progress-yellow" alt="Status">
+  <img src="https://img.shields.io/badge/Genre-Text--Based%20RPG-green" alt="Genre">
+</p>
 
-## What is it all about?
-Since childhood, i have a fascination for rpg-games, so naturally, I started to learn how to code and with  
-this Repository, my first own rpg is making its way to... maybe someone who will eventually play it.  
+<h1 align="center">🗡️ Text-Based RPG 🛡️</h1>
+<p align="center">
+  <b>Embark on an epic adventure in a world of monsters, loot, and endless possibilities—all from your terminal!</b>
+</p>
 
-### here are the things that you can do right now:
-- you can create your character by choosing a name and a class
-- you can fight truly terrifying monsters to earn xp and gold (which do not have a use by now)
-- There is the first attempt of an inventory
+---
 
-### Here are some things that I want to implement:
-- [ ] A lot of new events like dungeons, villages and npc encounters
-- [x] consumable items like healing potions
-- [ ] reworking the inventory a little bit
-- [x] autosaving feature
-- [x] rewriting the game in english and making it the standard edition
-- [x] reworking of __main__
-- [x] new files for easier accessibility
-- [ ] structured save-file, away from single-line code
-- [ ] implementing player.class as player.species and introducing player.class as in like warrior, mage or assassin
-- [ ] reworking of the weapon system
-    - rarities
-    - weapon elements
-    - durability
-    - enchantments
-- [ ] respawn
-- [ ] use inventory while in a fight
-- [ ] drop-system
+## 🚀 Features
 
+- **Create your own hero**: Choose a name and class!
+- **Battle monsters**: Face off against dragons, skeletons, and more!
+- **Inventory system**: Collect, equip, and use items.
+- **Level up**: Gain XP, gold, and skill points.
+- **Autosave**: Never lose your progress.
+- **English language support**: Standard edition in English.
+- **Modular codebase**: Easy to extend and maintain.
+
+---
+
+## 🧙‍♂️ Playable Classes
+
+| Class    |
+|----------|
+| Elf      |
+| Demon    |
+| Dwarf    |
+| Orc      |
+| Human    |
+| Inchling |
+
+---
+
+## 🕹️ Quick Start
+
+```bash
+# Clone the repo
+git clone https://github.com/InkyyPinkyy/text_based_rpg.git
+cd text_based_rpg
+
+# Run the game
+python -m __main__
+```
+
+---
+
+## 🗺️ Planned Features
+
+- [ ] More events: dungeons, villages, NPC encounters
+- [ ] Reworked inventory & weapon system (rarities, elements, durability)
+- [ ] Respawn system
+- [ ] Use inventory during combat
+- [ ] Drop system
+- [ ] structured save-file
+- [x] Autosave
+- [x] English as the standard edition
+
+---
+
+## 🧩 Code Example
+
+```python
+def event_enemy_encounter(player):
+    monster_data = Enemy.get_random_monster("normal")
+    enemy = Enemy(monster_data)
+    player.enemy_encounter(enemy)
+```
+
+---
+
+## 📦 Project Structure
+
+```text
+text_based_rpg/
+├── __main__.py         # Game entry point
+├── classes.py          # Player, Enemy, Item classes
+├── events.py           # Random events and encounters
+├── dungeon.py          # First stuff for Dungeon later on
+├── lists_and_dicts.py  # Data for classes, monsters, items
+├── README.md           # This file!
+```
+
+---
+
+## 💡 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 📜 License
+
+[MIT](LICENSE)
+
+---
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Adventure%20Awaits-Play%20Now!-purple?style=for-the-badge" alt="Adventure Awaits">
+</p>
