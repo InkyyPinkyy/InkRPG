@@ -25,5 +25,7 @@ this Repository, my first own rpg is making its way to... maybe someone who will
     - weapon elements
     - durability
     - enchantments
-
+- [ ] respawn
+- [ ] use inventory while in a fight
+- [ ] drop-system
 

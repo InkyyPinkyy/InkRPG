@@ -449,15 +449,37 @@ class item:
     
 class weapon(item):
     """legal values for weapon_type:\n
-        - dagger\n
-        - sword\n
-        - greatsword\n
-        - fish\n
-        - axe\n
-        - spear\n
-        - bow\n
-        - crossbow\n
-        - trident
+            - "dagger"\n
+            - "sword"\n
+            - "greatsword"\n
+            - "fish"\n
+            - "axe"\n
+            - "spear"\n
+            - "bow"\n
+            - "crossbow"\n
+            - "trident"
+
+        legal values for weapon_rarity:\n
+            - "common"
+            - "uncommon"
+            - "rare"
+            - "epic"
+            - "legendary"
+            - "godly"
+
+        legal values for weapon_element:\n
+            - "fire"
+            - "water"
+            - "earth"
+            - "wind"
+            - "ice"
+            - "spark"
+            - "blood"
+            - "shadow"
+            - "light"
+            - "toxin"
+            - "iron"
+            - "magic"
     """
     def __init__(self, name, type, item_info, weapon_type, weapon_rarity, weapon_element, weapon_damage, enchantments = None):
         super().__init__(name, type, item_info)

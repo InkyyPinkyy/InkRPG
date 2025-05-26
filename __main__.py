@@ -21,7 +21,7 @@ class Game:
 
     def main():
         if input(f"new game (n) or load an existing game (l)?\n").lower() == 'l':
-            name = input("Gib deinen Spielernamen ein: ")
+            name = input(f"{pcolors.RED}Gib deinen Spielernamen ein: ")
             player = Player.load_game(f"{name}_save.json", f"{name}_settings.json")
             if not player:
                 print(f"invalid name, save-file, settings-file or both of them does/do not exist.\nPlease try again or start a new game.")
