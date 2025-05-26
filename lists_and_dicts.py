@@ -22,6 +22,12 @@ dungeon_monsters = {
     "Mimic" : {"name": "Mimic", "hp": 180, "attack_damage": 30},
 }
 
+weapon_types = {
+    
+}
+
+
+
 weapon_rarities = {
     "common": {"name": "Common", "symbol": "*", "chance": 0.5},
     "uncommon": {"name": "Uncommon", "symbol": "**", "chance": 0.3},
@@ -31,14 +37,22 @@ weapon_rarities = {
     "godly": {"name": "Godly", "symbol": "⋈", "chance": 0.01}
 }
 
-weapon_elementss = {
-    # common
-    "fire": {"name": "Fire", "unlocked_on_rarity": "common", "possible_enchantments": "fire_enchantments", "good_against": ["earth", "corruption", "decay"], "bad_against": ["air", "water"]},
+weapon_elements = {
+
+    "fire": {"rarities": {"*":"Fire", "**":"Flame", "***":"Inferno", "****":"Hellfire", "*****":"Phoenix Flame", "⋈":"Cinderheart"}, "possible_enchantments":"fire_enchantments", "good_against": [], "bad_against": []},
+    "water": {"rarities": {"*":"Water", "**":"Tide", "***":"Flood", "****":"Maelstrom", "*****":"Leviathan's Wrath", "⋈":"Poseidon's Nemesis"}, "possible_enchantments":"water_enchantments", "good_against": [], "bad_against": []},
+    "earth": {"rarities": {"*":"Earth", "**":"Stone", "***":"Quake", "****":"Terraforce", "*****":"Worldbreaker", "⋈":"Primordial Core"}, "possible_enchantments":"earth_enchantments", "good_against": [], "bad_against": []},
+    "wind": {"rarities": {"*":"Wind", "**":"Gust", "***":"Storm", "****":"Tempest", "*****":"Skywrath", "⋈":"Breath of Aeons"}, "possible_enchantments":"wind_enchantments", "good_against": [], "bad_against": []},
+    "ice": {"rarities": {"*":"Ice", "**":"Frost", "***":"Glacier", "****":"Frostbite", "*****":"Permafrost", "⋈":"Winter's Grave"}, "possible_enchantments":"ice_enchantments", "good_against": [], "bad_against": []},
+    "spark": {"rarities": {"*":"Spark", "**":"Bolt", "***":"Thunder", "****":"Storm", "*****":"Stormcaller", "⋈":"Skyfire"}, "possible_enchantments":"spark_enchantments", "good_against": [], "bad_against": []},
+    "blood": {"rarities": {"*":"Blood", "**":"Crimson", "***":"Bloodfang", "****":"red curse", "*****":"Crimson Requiem", "⋈":"Thirst of the forgotten"}, "possible_enchantments":"blood_enchantments", "good_against": [], "bad_against": []},
+    "shadow": {"rarities": {"*":"Shadow", "**":"Void", "***":"Abyss", "****":"Endless Chaos", "*****":"The Nothingness", "⋈":"Khaos' Pain"}, "possible_enchantments":"shadow_enchantments", "good_against": [], "bad_against": []},
+    "light": {"rarities": {"*":"Light", "**":"Radiant", "***":"Gleam", "****":"Lumina", "*****":"Celestia", "⋈":"Halo of Judgement"}, "possible_enchantments":"light_enchantments", "good_against": [], "bad_against": []},
+    "toxin": {"rarities": {"*":"Toxin", "**":"Venom", "***":"Plague", "****":"Rotfang", "*****":"Pestilence", "⋈":"Serpent's Kiss"}, "possible_enchantments":"toxin_enchantments", "good_against": [], "bad_against": []},
+    "iron": {"rarities": {"*":"Iron", "**":"Steel", "***":"Mithril", "****":"Adamant", "*****":"Godsteel", "⋈":"Starforged"}, "possible_enchantments":"iron_enchantments", "good_against": [], "bad_against": []},
+    "magic": {"rarities": {"*":"Magic", "**":"Mana", "***":"Arcana", "****":"Spellfire", "*****":"Runeblade", "⋈":"Aetherial Wonder"}, "possible_enchantments":"iron_enchantments", "good_against": [], "bad_against": []},
 }
 
-weapon_elements = {
-    
-}
 
 all_items = {
     "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "dagger", "weapon_damage": 4},
