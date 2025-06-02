@@ -23,7 +23,7 @@ dungeon_monsters = {
 }
 
 weapon_types = {
-    "dagger": {"type_name": "Dagger", "damage_on_rarity": {"*":5, "**":"Flame", "***":"Inferno", "****":"Hellfire", "*****":"Phoenix Flame", "⋈":"Cinderheart"},}
+    "dagger": {"type_name": "Dagger", "damage_on_rarity": {"*":5, "**":10, "***":15, "****":20, "*****":25, "⋈":40}, "strength_required": 0.5, "chance_to_fail": 0.05, "base_durability_on_rarity": {"*":50, "**":75, "***":100, "****":125, "*****":150, "⋈":250}, "preferred_mo_type": "ground", },
 }
 
 
