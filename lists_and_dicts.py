@@ -23,7 +23,86 @@ dungeon_monsters = {
 }
 
 weapon_types = {
-    "dagger": {"type_name": "Dagger", "damage_on_rarity": {"*":5, "**":10, "***":15, "****":20, "*****":25, "⋈":40}, "strength_required": 0.5, "chance_to_fail": 0.05, "base_durability_on_rarity": {"*":50, "**":75, "***":100, "****":125, "*****":150, "⋈":250}, "preferred_mo_type": "ground", },
+
+    # Ground weapons
+
+    "dagger": {"type_name": "Dagger", 
+               "strength_required": 0.5, 
+               "base_chance_to_fail": 0.05, 
+               "base_physical_damage_on_rarity": {"*":5, "**":10, "***":15, "****":20, "*****":25, "⋈":40}, 
+               "base_durability_on_rarity": {"*":50, "**":75, "***":100, "****":125, "*****":150, "⋈":250}, 
+               "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+               "preferred_mob_type": "ground", 
+               },
+    "sword": {"type_name": "Sword", 
+               "strength_required": 0.8, 
+               "base_chance_to_fail": 0.07, 
+               "base_physical_damage_on_rarity": {"*":7, "**":14, "***":21, "****":28, "*****":35, "⋈":55}, 
+               "base_durability_on_rarity": {"*":55, "**":80, "***":105, "****":130, "*****":155, "⋈":255}, 
+               "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+               "preferred_mob_type": "ground", 
+               },
+    "greatsword": {"type_name": "Greatsword", 
+                   "strength_required": 1.7, 
+                   "base_chance_to_fail": 0.1, 
+                   "base_physical_damage_on_rarity": {"*":10, "**":20, "***":30, "****":40, "*****":50, "⋈":80}, 
+                   "base_durability_on_rarity": {"*":60, "**":90, "***":120, "****":150, "*****":180, "⋈":300}, 
+                   "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+                   "preferred_mob_type": "ground", 
+                   },
+    "axe": {"type_name": "Axe", 
+               "strength_required": 1.5, 
+               "base_chance_to_fail": 0.08, 
+               "base_physical_damage_on_rarity": {"*":8, "**":16, "***":24, "****":32, "*****":40, "⋈":65}, 
+               "base_durability_on_rarity": {"*":60, "**":80, "***":105, "****":130, "*****":155, "⋈":255}, 
+               "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+               "preferred_mob_type": "ground", 
+               },
+
+    # Ranged weapons
+
+    "bow": {"type_name": "Bow", 
+            "strength_required": 1.0, 
+            "base_chance_to_fail": 0.15,
+
+            # Damage is low because that is just for the bow itself, the true damage comes from the arrows used later on. 
+            "base_physical_damage_on_rarity": {"*":4, "**":8, "***":12, "****":16, "*****":20, "⋈":30}, 
+            
+            "base_durability_on_rarity": {"*":40, "**":60, "***":80, "****":100, "*****":120, "⋈":200}, 
+            "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+            "preferred_mob_type": "air", 
+            },
+    "crossbow": {"type_name": "Crossbow", 
+                 "strength_required": 1.2, 
+                 "base_chance_to_fail": 0.12, 
+                 
+                 # Damage is low because that is just for the crossbow itself, the true damage comes from the arrows used later on. 
+                 "base_physical_damage_on_rarity": {"*":6, "**":12, "***":18, "****":24, "*****":30, "⋈":45}, 
+                 
+                 "base_durability_on_rarity": {"*":50, "**":70, "***":90, "****":110, "*****":130, "⋈":220}, 
+                 "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+                 "preferred_mob_type": "air", 
+                 },
+    "spear": {"type_name": "Spear",
+               "strength_required": 1.2, 
+               "base_chance_to_fail": 0.09, 
+               "base_physical_damage_on_rarity": {"*":7, "**":14, "***":21, "****":28, "*****":35, "⋈":60}, 
+               "base_durability_on_rarity": {"*":55, "**":75, "***":100, "****":125, "*****":150, "⋈":250}, 
+               "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+               "preferred_mob_type": "air", 
+               },
+
+    # Magic weapons
+
+    "staff": {"type_name": "Staff", 
+              "strength_required": 0.7, 
+              "base_chance_to_fail": 0.1, 
+              "base_magical_damage_on_rarity": {"*":8, "**":16, "***":24, "****":32, "*****":40, "⋈":65}, 
+              "base_durability_on_rarity": {"*":50, "**":60, "***":70, "****":90, "*****":110, "⋈":200}, 
+              "gemstone_slots_on_rarity": {"*":0, "**":1, "***":1, "****":2, "*****":2, "⋈":3},
+              "preferred_mob_type": "magic", 
+              },
+
 }
 
 
