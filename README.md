@@ -59,7 +59,8 @@ python -m __main__
 - [ ] structured save-file
 - [x] Autosave
 - [x] English as the standard edition
-
+- [ ] Skill system (unique tree for every species)
+- [ ] graphics/interactive CLI
 ---
 
 ## 🧩 Code Example
