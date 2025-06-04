@@ -34,10 +34,10 @@ class pcolors: # print-colors
 
 
 class Player:
-    def __init__(self, name,player_class):
+    def __init__(self, name,player_species):
         self.name = name
-        self.player_class = player_class
-        self.name_of_player_class = player_class['name_of_player_class']
+        self.player_species = player_species
+        self.name_of_player_species = player_species['name_of_player_species']
         
         self.skillpoints = 0
         self.level = 1
@@ -48,13 +48,13 @@ class Player:
         self.armor = None
         self.ring = None
         self.necklace = None
-        self.vitality = player_class['vitality'] + self.ring.ring_vitality if self.ring else player_class['vitality']
-        self.base_hp = player_class['hp'] 
-        self.max_hp = player_class['hp']
+        self.vitality = player_species['vitality'] + self.ring.ring_vitality if self.ring else player_species['vitality']
+        self.base_hp = player_species['hp'] 
+        self.max_hp = player_species['hp']
         self.max_max_hp = self.max_hp * self.vitality
         self.hp = self.max_max_hp
-        self.strength = player_class['strength']
-        self.attack_damage = player_class['attack_damage']
+        self.strength = player_species['strength']
+        self.attack_damage = player_species['attack_damage']
 
         #settings, Quests and more:
         self.autosave_on = False
@@ -62,7 +62,7 @@ class Player:
     def show_player_stats(self):
         """shows the player's stats"""
         print(f"\n{self.name}'s stats:")
-        print(f"Class: {self.name_of_player_class}")
+        print(f"Class: {self.name_of_player_species}")
         print(f"{round(self.hp)}/{round(self.max_max_hp)} HP")
         print(f"Damage: {round((self.attack_damage + self.weapon.weapon_damage) * self.strength)}")
         print(f"Your weapon: {self.weapon}")
@@ -289,8 +289,8 @@ class Player:
     def save_game(self):
         save_data = {
             'name': self.name,
-            'player_class': self.player_class,
-            'name_of_player_class': self.name_of_player_class,
+            'player_species': self.player_species,
+            'name_of_player_species': self.name_of_player_species,
             'hp': self.hp, 
             'max_hp': self.max_hp, 
             'vitality': self.vitality, 
@@ -310,6 +310,7 @@ class Player:
         }
         with open(f"{self.name}_save.json", "w") as file:
             json.dump(save_data, file)
+        
         settings_data = {
             'autosave_on' : self.autosave_on,
         }
@@ -321,9 +322,9 @@ class Player:
         if os.path.exists(player_file_name) and os.path.exists(settings_file_name):
             with open(player_file_name, "r") as file:
                 data = json.load(file)
-                player_class = data['player_class']
-                player = Player(data['name'],player_class)
-                player.name_of_player_class = data['name_of_player_class']
+                player_species = data['player_species']
+                player = Player(data['name'],player_species)
+                player.name_of_player_species = data['name_of_player_species']
                 player.hp = data['hp']
                 player.max_hp = data['max_hp']
                 player.vitality = data['vitality']
@@ -368,7 +369,7 @@ class Player:
 class NPC:
     def __init__(self, which_npc):
         self.name = which_npc[str('name')]
-        self.race_name = which_npc['race_name']
+        self.species_name = which_npc['species_name']
         # same as player-races
         self.profession = which_npc['profession']
 
@@ -394,6 +395,7 @@ class Merchant(NPC):
         print(f"\n{self.name}'s items to buy:")
         for idx, item in enumerate(self.items_to_buy, start = 1):
             print(f"{idx}. {item}")
+
 class Enemy:
     def __init__(self, which_monster):
         self.name = which_monster[str('name')]
@@ -431,7 +433,7 @@ class item:
         self.item_info = str(item_info)
 
     def __str__(self):
-        return f"{self.name} ({self.type}): \n{self.item_info}"
+        return f"{self.name} ({self.type}): \n  {self.item_info}"
     
     def get_random_item(which_items):
         """
@@ -457,7 +459,8 @@ class weapon(item):
             - "spear"\n
             - "bow"\n
             - "crossbow"\n
-            - "trident"
+            - "trident"\n
+            - "staff"\n
 
         legal values for weapon_rarity:\n
             - "common"
@@ -484,15 +487,23 @@ class weapon(item):
     def __init__(self, name, type, item_info, weapon_type, weapon_rarity, weapon_element, weapon_damage, enchantments = None):
         super().__init__(name, type, item_info)
         self.weapon_type = weapon_type
-        self.weapon_rarity = weapon_rarity
-        self.weapon_element = weapon_element
+
+        self.weapon_type_name = weapon_type.capitalize()
+        self.strength_required = 0
+        self.base_chance_to_fail = 0
+        self.base_damage_on_rarity = {}
+        self.base_durability_on_rarity = {}
+        self.gemstone_slots_on_rarity = {}
+        self.preferred_mob_type = None # ranged, ground, hydrophile or magical
+        
+        self.weapon_rarity = {}
+        self.weapon_element = {}
         self.weapon_damage = weapon_damage
-        self.enchantments = []
-        self.durability = int
+        self.enchantments = [] 
         self.IsEnabled = True
 
     def __str__(self):
-        return f"{self.name} ({self.type}, {self.weapon_type}): {self.weapon_damage} Damage\n{self.item_info}"
+        return f"{self.name} ({self.weapon_type}): {self.weapon_damage} Damage\n    {self.item_info}"
 
 class armor(item):
     def __init__(self, name, type, item_info, armor_type, armor_vitality):
@@ -507,7 +518,7 @@ class ring(item):
         self.ring_vitality = ring_vitality
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.ring_vitality} Vitality\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.ring_vitality} Vitality\n    {self.item_info}"
 
 class necklace(item):
     def __init__(self, name, type, item_info, necklace_type, necklace_strength):
@@ -516,7 +527,7 @@ class necklace(item):
         self.armor_vitality = necklace_strength
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n    {self.item_info}"
 
 class consumable(item):
     def __init__(self, name, type, item_info, consumable_type, stats_player_gets):
@@ -525,4 +536,4 @@ class consumable(item):
         self.stats_player_gets = int(stats_player_gets)
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n   {self.item_info}"
