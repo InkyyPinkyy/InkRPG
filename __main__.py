@@ -11,12 +11,12 @@ class Game:
         name = input("So, what should be your new name in this new life of yours?\nNew name: ")
         return name
 
-    def choose_class():
+    def choose_species():
         print(f"\nChoose a class:")
-        for i, c in enumerate(CLASSES.keys(), 1):
+        for i, c in enumerate(SPECIES.keys(), 1):
             print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}")
         choice = int(input(f"Your choice: "))
-        class_name = list(CLASSES.keys())[choice - 1]
+        class_name = list(SPECIES.keys())[choice - 1]
         return class_name
 
     def main():
@@ -29,8 +29,8 @@ class Game:
             print(f"Welcome back, {player.name}!")
         else:
             name = Game.welcome_player()
-            class_name = Game.choose_class()
-            player = Player(name, CLASSES[class_name])
+            species_name = Game.choose_species()
+            player = Player(name, SPECIES[species_name])
 
             Knife = weapon("Knife", "weapon", "A small knife you found in your pocket", "dagger", "common", "starting weapon", 5)
             HealingPotion = consumable("Healing Potion", "consumable", "A tube out of glass with a red liquid inside", "health", 100)

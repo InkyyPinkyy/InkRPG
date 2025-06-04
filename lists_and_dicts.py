@@ -1,10 +1,10 @@
-CLASSES = {
-    "Elf" : {"name_of_player_class": "Elf", "hp": 110, "vitality": 1, "attack_damage": 18, "strength": 1.3},
-    "Demon" : {"name_of_player_class": "Demon", "hp": 125, "vitality": 1, "attack_damage": 25, "strength": 1.5},
-    "Dwarf" : {"name_of_player_class": "Dwarf", "hp": 150, "vitality": 1.3, "attack_damage": 15, "strength": 1.3},
-    "Orc" : {"name_of_player_class": "Orc", "hp": 120, "vitality": 1, "attack_damage": 23, "strength": 1.5},
-    "Human" : {"name_of_player_class": "Human", "hp": 100, "vitality": 1.5, "attack_damage": 20, "strength": 1},
-    "Inchling" : {"name_of_player_class": "Inchling", "hp": 80, "vitality": 1.5, "attack_damage": 15, "strength": 1.5}
+SPECIES = {
+    "Elf" : {"name_of_player_species": "Elf", "hp": 110, "vitality": 1, "attack_damage": 18, "strength": 1.3},
+    "Demon" : {"name_of_player_species": "Demon", "hp": 125, "vitality": 1, "attack_damage": 25, "strength": 1.5},
+    "Dwarf" : {"name_of_player_species": "Dwarf", "hp": 150, "vitality": 1.3, "attack_damage": 15, "strength": 1.3},
+    "Orc" : {"name_of_player_species": "Orc", "hp": 120, "vitality": 1, "attack_damage": 23, "strength": 1.5},
+    "Human" : {"name_of_player_species": "Human", "hp": 100, "vitality": 1.5, "attack_damage": 20, "strength": 1},
+    "Inchling" : {"name_of_player_species": "Inchling", "hp": 80, "vitality": 1.5, "attack_damage": 15, "strength": 1.5}
 }
 
 monsters = {
