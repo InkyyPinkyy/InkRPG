@@ -433,7 +433,7 @@ class item:
         self.item_info = str(item_info)
 
     def __str__(self):
-        return f"{self.name} ({self.type}): \n{self.item_info}"
+        return f"{self.name} ({self.type}): \n  {self.item_info}"
     
     def get_random_item(which_items):
         """
@@ -503,7 +503,7 @@ class weapon(item):
         self.IsEnabled = True
 
     def __str__(self):
-        return f"{self.name} ({self.type}, {self.weapon_type}): {self.weapon_damage} Damage\n{self.item_info}"
+        return f"{self.name} ({self.weapon_type}): {self.weapon_damage} Damage\n    {self.item_info}"
 
 class armor(item):
     def __init__(self, name, type, item_info, armor_type, armor_vitality):
@@ -518,7 +518,7 @@ class ring(item):
         self.ring_vitality = ring_vitality
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.ring_vitality} Vitality\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.ring_vitality} Vitality\n    {self.item_info}"
 
 class necklace(item):
     def __init__(self, name, type, item_info, necklace_type, necklace_strength):
@@ -527,7 +527,7 @@ class necklace(item):
         self.armor_vitality = necklace_strength
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n    {self.item_info}"
 
 class consumable(item):
     def __init__(self, name, type, item_info, consumable_type, stats_player_gets):
@@ -536,4 +536,4 @@ class consumable(item):
         self.stats_player_gets = int(stats_player_gets)
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n{self.item_info}"
+        return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n   {self.item_info}"
