@@ -457,7 +457,8 @@ class weapon(item):
             - "spear"\n
             - "bow"\n
             - "crossbow"\n
-            - "trident"
+            - "trident"\n
+            - "staff"\n
 
         legal values for weapon_rarity:\n
             - "common"
@@ -484,11 +485,19 @@ class weapon(item):
     def __init__(self, name, type, item_info, weapon_type, weapon_rarity, weapon_element, weapon_damage, enchantments = None):
         super().__init__(name, type, item_info)
         self.weapon_type = weapon_type
-        self.weapon_rarity = weapon_rarity
-        self.weapon_element = weapon_element
+
+        self.weapon_type_name = weapon_type.capitalize()
+        self.strength_required = 0
+        self.base_chance_to_fail = 0
+        self.base_damage_on_rarity = {}
+        self.base_durability_on_rarity = {}
+        self.gemstone_slots_on_rarity = {}
+        self.preferred_mob_type = None # ranged, ground, hydrophile or magical
+        
+        self.weapon_rarity = {}
+        self.weapon_element = {}
         self.weapon_damage = weapon_damage
-        self.enchantments = []
-        self.durability = int
+        self.enchantments = [] 
         self.IsEnabled = True
 
     def __str__(self):
