@@ -484,20 +484,16 @@ class weapon(item):
             - "iron"
             - "magic"
     """
-    def __init__(self, name, type, item_info, weapon_type, weapon_rarity, weapon_element, weapon_damage, enchantments = None):
+    def __init__(self, name, type, item_info, weapon_type, weapon_type_name, strength_required, base_chance_to_fail, base_damage_on_rarity, base_durability_on_rarity, gemstone_slots_on_rarity, preferred_mob_type, weapon_rarity, weapon_rarity_symbol, weapon_element, weapon_damage, enchantments = None):
         super().__init__(name, type, item_info)
-        self.weapon_type = weapon_type
 
-        self.weapon_type_name = weapon_type.capitalize()
-        self.strength_required = 0
-        self.base_chance_to_fail = 0
-        self.base_damage_on_rarity = {}
-        self.base_durability_on_rarity = {}
-        self.gemstone_slots_on_rarity = {}
-        self.preferred_mob_type = None # ranged, ground, hydrophile or magical
+        self.weapon_type = {}
         
-        self.weapon_rarity = {}
+        self.weapon_rarity = ""
+        self.weapon_rarity_symbol = ""
+
         self.weapon_element = {}
+        
         self.weapon_damage = weapon_damage
         self.enchantments = [] 
         self.IsEnabled = True
