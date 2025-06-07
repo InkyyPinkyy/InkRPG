@@ -6,6 +6,14 @@ import json
 from dungeon import *
 from lists_and_dicts import *
 
+def clear_console():
+    # Clear console based on the operating system
+    if os.name == 'nt':
+        os.system('cls')  # For Windows
+    else:
+        os.system('clear')  # For Unix/Linux/Mac
+
+
 class pcolors: # print-colors
     PURPLE = '\033[95m'
     BLUE = '\033[94m'
@@ -31,6 +39,7 @@ class pcolors: # print-colors
     END = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
 
 
 class Player:
@@ -75,6 +84,11 @@ class Player:
         print(f"{self.xp}/{self.level * 32} XP until the next level")
         print(f"{self.skillpoints} skillpoints")
         print(f"{self.luck} Luck")
+        next = input(f"\n{pcolors.RED}return (r):\n")
+        if next.lower() == 'r':
+            return
+        else:
+            print("Please provide a valid entry")
 
     def check_amount_self_xp(self):
         while self.xp >= (self.level * 32):
@@ -91,7 +105,7 @@ class Player:
         """shows the settings menu"""
         print(f"\nSettings:")
         print(f"1. Change autosave on/off")
-        print(f"2. exit settings")
+        print(f"2. {pcolors.RED}exit settings{pcolors.END}")
     
         choice = input("Choice: ")
     
@@ -139,6 +153,7 @@ class Player:
 
             action = input("Attack (a) or flee (f)? ")
             if action.lower() == 'a':
+                clear_console()
                 self.player_attack(enemy)
 
             elif action.lower() == 'f':
@@ -149,11 +164,16 @@ class Player:
             print(f"You won gainst the {enemy.name}!")
             gold_earned = random.randint(10, 20)
             self.gold += gold_earned
-            print(f"You got {gold_earned} gold!")
+            print(f"You got {pcolors.YELLOW}{gold_earned} gold!{pcolors.END}")
             xp_earned = random.randint(enemy.max_hp // 10, enemy.max_hp // 3)
             self.xp += xp_earned
-            print(f"You  got {xp_earned} XP!")
+            print(f"You got {pcolors.GREEN}{xp_earned} XP{pcolors.END}!")
             self.check_amount_self_xp()
+            next = input(f"\n{pcolors.RED}return (r):\n")
+            if next.lower() == 'r':
+                return
+            else:
+                print("Please provide a valid entry!")
 
         else:
             print("You lost...")

@@ -1,10 +1,19 @@
 from lists_and_dicts import *
 from classes import *
 from events import *
+import os
 
 class Game:    
 
+    def clear_console():
+        # Clear console based on the operating system
+        if os.name == 'nt':
+            os.system('cls')  # For Windows
+        else:
+            os.system('clear')  # For Unix/Linux/Mac
+
     def welcome_player():
+        clear_console()
         print(f"\nWelcome to your new adventure!")
         print(f"You wake up under a tree and don't remember anything...\nYou can't even recall your own name...")
         print(f"You find a knife in your pocket. It's not much, but you \nshould be able to protect yourself when in danger.")
@@ -12,6 +21,7 @@ class Game:
         return name
 
     def choose_species():
+        clear_console()
         print(f"\nChoose a class:")
         for i, c in enumerate(SPECIES.keys(), 1):
             print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}")
@@ -20,6 +30,7 @@ class Game:
         return class_name
 
     def main():
+        clear_console()
         if input(f"new game (n) or load an existing game (l)?\n").lower() == 'l':
             name = input(f"{pcolors.RED}Gib deinen Spielernamen ein: ")
             player = Player.load_game(f"{name}_save.json", f"{name}_settings.json")
@@ -40,8 +51,8 @@ class Game:
             player.hp = player.max_max_hp
 
         while True:
-
-            print(f"\nWhat do you want to do?")
+            clear_console()
+            print(f"\n{pcolors.END}What do you want to do?")
             print(f"1. Explore")
             print(f"2. Inventory")
             print(f"3. Save the game")
@@ -54,15 +65,19 @@ class Game:
                 if player.autosave_on ==True:
                     player.save_game()
                     print(f"Autosaved game!")
+                clear_console()    
                 event_enemy_encounter(player)           
             elif choice == '2':
+                clear_console()
                 player.do_inventory_shit()
             elif choice == '3':
                 player.save_game()
                 print("Game saved!")
             elif choice == '4':
+                clear_console()
                 player.show_player_stats()
             elif choice == '5':
+                clear_console()
                 player.go_to_settings()
             elif choice == '6':
                 print("Closed game!")
