@@ -32,7 +32,7 @@ class Game:
             species_name = Game.choose_species()
             player = Player(name, SPECIES[species_name])
 
-            Knife = weapon("Knife", "weapon", "A small knife you found in your pocket", "dagger", "common", "starting weapon", 5)
+            Knife = Weapon("weapon","A small Knife that you found inside your pocket", weapon_types["dagger"], weapon_rarities["common"], weapon_elements["iron"], enchantments=None )
             HealingPotion = consumable("Healing Potion", "consumable", "A tube out of glass with a red liquid inside", "health", 100)
             player.weapon = Knife
             player.inventory.append(Knife)
