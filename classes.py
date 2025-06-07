@@ -55,6 +55,8 @@ class Player:
         self.hp = self.max_max_hp
         self.strength = player_species['strength']
         self.attack_damage = player_species['attack_damage']
+        self.weapons_created = 0
+        self.luck = 0
 
         #settings, Quests and more:
         self.autosave_on = False
@@ -65,13 +67,14 @@ class Player:
         print(f"Class: {self.name_of_player_species}")
         print(f"{round(self.hp)}/{round(self.max_max_hp)} HP")
         print(f"Damage: {round((self.attack_damage + self.weapon.weapon_damage) * self.strength)}")
-        print(f"Your weapon: {self.weapon}")
+        print(f"Your weapon:\n    {self.weapon}")
         print(f"Your armor: {self.armor}")
         print(f"Your ring: {self.ring}")
         print(f"Your necklace: {self.necklace}")
         print(f"Your level: {self.level}")
         print(f"{self.xp}/{self.level * 32} XP until the next level")
         print(f"{self.skillpoints} skillpoints")
+        print(f"{self.luck} Luck")
 
     def check_amount_self_xp(self):
         while self.xp >= (self.level * 32):
@@ -240,8 +243,8 @@ class Player:
 
     def consume_item(self):
         consumable_items = self.show_inventory("consumables")
-        wahl = input(f"\nProvide the number of the item you want to consume or exit (e) ")
-        if wahl.lower() == 'e':
+        wahl = int(input(f"\nProvide the number of the item you want to consume or exit (0):\n "))
+        if wahl == 0:
             return
         try: 
             wahl -= 1       
@@ -251,24 +254,24 @@ class Player:
                     if self.hp == self.max_max_hp:
                         print(f"{self.name} is already at max HP!")
                         return
-                    elif self.hp + item.stats_self_gets > self.max_max_hp:
-                        item.stats_self_gets = self.max_max_hp - self.hp
-                        self.hp += item.stats_self_gets
+                    elif self.hp + item.stats_player_gets > self.max_max_hp:
+                        item.stats_player_gets = self.max_max_hp - self.hp
+                        self.hp += item.stats_player_gets
                     else:
-                        self.hp += item.stats_self_gets
-                    print(f"{self.name} consumed {item.name} and got {item.stats_self_gets} HP!")
+                        self.hp += item.stats_player_gets
+                    print(f"{self.name} consumed {item.name} and got {item.stats_player_gets} HP!")
                     self.inventory.remove(item)
                 elif item.consumable_type == "strength":
-                    self.strength += item.stats_self_gets
-                    print(f"{self.name} consumed {item.name} and got {item.stats_self_gets} strength!")
+                    self.strength += item.stats_player_gets
+                    print(f"{self.name} consumed {item.name} and got {item.stats_player_gets} strength!")
                     self.inventory.remove(item)
                 elif item.consumable_type == "increase_max_health":
-                    self.max_hp += item.stats_self_gets
-                    print(f"{self.name} consumed {item.name} and got additional {item.stats_self_gets} max HP!")
+                    self.max_hp += item.stats_player_gets
+                    print(f"{self.name} consumed {item.name} and got additional {item.stats_player_gets} max HP!")
                     self.inventory.remove(item)
                 elif item.consumable_type == "increase_attack_damage":
-                    self.attack_damage += item.stats_self_gets
-                    print(f"{self.name} consumed {item.name} and got additional {item.stats_self_gets} strength!")
+                    self.attack_damage += item.stats_player_gets
+                    print(f"{self.name} consumed {item.name} and got additional {item.stats_player_gets} strength!")
                     self.inventory.remove(item)
             else:
                 return
@@ -300,6 +303,8 @@ class Player:
             'level': self.level, 
             'xp': self.xp, 
             'gold': self.gold, 
+            'weapons_created': self.weapons_created,
+            'luck': self.luck,
             'inventory': [
             {'type': type(item).__name__, **vars(item)} for item in self.inventory  # Save all items in the inventory converted to dicts
             ], 
@@ -333,6 +338,8 @@ class Player:
                 player.level = data['level']
                 player.xp = data['xp']
                 player.gold = data['gold']
+                player.weapons_created = data['weapons_created']
+                player.luck = data['luck']
 
                 player.inventory = []
                 for item_data in data['inventory']:
@@ -427,8 +434,8 @@ class Enemy:
         return f"{self.name} (HP: {self.hp}, Attack: {self.attack_damage})"
 
 class item:
-    def __init__(self, name, type, item_info):
-        self.name = name
+    def __init__(self, type, item_info):
+        self.name = str
         self.type = type
         self.item_info = str(item_info)
 
@@ -449,18 +456,18 @@ class item:
     
     
     
-class weapon(item):
+class Weapon(item):
     """legal values for weapon_type:\n
-            - "dagger"\n
-            - "sword"\n
-            - "greatsword"\n
-            - "fish"\n
-            - "axe"\n
-            - "spear"\n
-            - "bow"\n
-            - "crossbow"\n
-            - "trident"\n
-            - "staff"\n
+            - "dagger"
+            - "sword"
+            - "greatsword"
+            - "fish"
+            - "axe"
+            - "spear"
+            - "bow"
+            - "crossbow"
+            - "trident"
+            - "staff"
 
         legal values for weapon_rarity:\n
             - "common"
@@ -484,32 +491,86 @@ class weapon(item):
             - "iron"
             - "magic"
     """
-    def __init__(self, name, type, item_info, weapon_type, weapon_type_name, strength_required, base_chance_to_fail, base_damage_on_rarity, base_durability_on_rarity, gemstone_slots_on_rarity, preferred_mob_type, weapon_rarity, weapon_rarity_symbol, weapon_element, weapon_damage, enchantments = None):
-        super().__init__(name, type, item_info)
+    def __init__(self, type, item_info, weapon_type, weapon_rarity, weapon_element, enchantments = None):
+        super().__init__(type, item_info)
 
-        self.weapon_type = {}
-        
-        self.weapon_rarity = ""
-        self.weapon_rarity_symbol = ""
+        self.weapon_type = weapon_type    
+        self.item_info = item_info
+        self.weapon_rarity = weapon_rarity         
 
-        self.weapon_element = {}
+        self.weapon_element = weapon_element
         
-        self.weapon_damage = weapon_damage
-        self.enchantments = [] 
+        self.weapon_damage = self.weapon_type["base_damage_on_rarity"][self.weapon_rarity["symbol"]]
+        
+        self.name = f'{self.weapon_type["type_name"]} of {self.weapon_element["rarities"][self.weapon_rarity["symbol"]]}'
+        
+        self.enchantments = enchantments if enchantments else [] 
         self.IsEnabled = True
 
     def __str__(self):
-        return f"{self.name} ({self.weapon_type}): {self.weapon_damage} Damage\n    {self.item_info}"
+        return (
+            f"{self.weapon_rarity['pcolors_string']}{self.name}{pcolors.END} "
+            f"({self.weapon_rarity['symbol']} {self.weapon_element['symbol']}{self.weapon_type['type_name']}):\n"
+            f"    - {self.weapon_damage} Damage\n"
+            f"    - {self.item_info}\n"
+
+            # debug
+            # f"{self.weapon_type}\n"
+            # f"{self.weapon_rarity}\n"
+            # f"{self.weapon_element}\n"
+
+        )
+
+    @staticmethod
+    def get_random_weapon(weapon_type, weapon_rarity, weapon_element):
+        try:
+            if player and player.luck > 0:
+                random_value_for_loottable = random.random() + player.luck * 0.001
+            else:
+                random_value_for_loottable = random.random()
+        except:
+            random_value_for_loottable = random.random()
+        if weapon_type == "random":
+            wtype_key = random.choice(list(weapon_types.keys()))
+            wtype = weapon_types[wtype_key]
+        else:
+            wtype = weapon_types[weapon_type]
+        if weapon_rarity == "random":
+            rv = random_value_for_loottable
+            if rv < weapon_rarities["common"]["chance"]:
+                rarity = weapon_rarities["common"]
+            elif rv < weapon_rarities["uncommon"]["chance"] + weapon_rarities["common"]["chance"]:
+                rarity = weapon_rarities["uncommon"]
+            elif rv < weapon_rarities["rare"]["chance"] + weapon_rarities["uncommon"]["chance"] + weapon_rarities["common"]["chance"]:
+                rarity = weapon_rarities["rare"]
+            elif rv < weapon_rarities["epic"]["chance"] + weapon_rarities["rare"]["chance"] + weapon_rarities["uncommon"]["chance"] + weapon_rarities["common"]["chance"]:
+                rarity = weapon_rarities["epic"]
+            else:
+                rarity = weapon_rarities["legendary"]
+        else:
+            rarity = weapon_rarities[weapon_rarity]
+        if weapon_element == "random":
+            element_key = random.choice(list(weapon_elements.keys()))
+            element = weapon_elements[element_key]
+        else:
+            element = weapon_elements[weapon_element]
+        
+        NewWeapon = Weapon("weapon", "", wtype, rarity, element, enchantments=None)
+        return NewWeapon
+
+
 
 class armor(item):
     def __init__(self, name, type, item_info, armor_type, armor_vitality):
-        super().__init__(name, type, item_info)
+        super().__init__(type, item_info)
+        self.name = name
         self.armor_type = armor_type
         self.armor_vitality = armor_vitality
 
 class ring(item):
     def __init__(self, name, type, item_info, ring_type, ring_vitality):
-        super().__init__(name, type, item_info)
+        super().__init__(type, item_info)
+        self.name = name
         self.ring_type = ring_type
         self.ring_vitality = ring_vitality
 
@@ -518,7 +579,8 @@ class ring(item):
 
 class necklace(item):
     def __init__(self, name, type, item_info, necklace_type, necklace_strength):
-        super().__init__(name, type, item_info)
+        super().__init__(type, item_info)
+        self.name = name
         self.armor_type = necklace_type
         self.armor_vitality = necklace_strength
 
@@ -527,7 +589,8 @@ class necklace(item):
 
 class consumable(item):
     def __init__(self, name, type, item_info, consumable_type, stats_player_gets):
-        super().__init__(name, type, item_info)
+        super().__init__(type, item_info)
+        self.name = name
         self.consumable_type = consumable_type
         self.stats_player_gets = int(stats_player_gets)
 

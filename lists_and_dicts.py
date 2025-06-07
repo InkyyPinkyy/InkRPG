@@ -130,12 +130,12 @@ weapon_types = {
 
 
 weapon_rarities = {
-    "common": {"name": "Common", "symbol": "*", "chance": 0.4, "pcolors_string": ''},
-    "uncommon": {"name": "Uncommon", "symbol": "**", "chance": 0.25, "pcolors_string": '\033[92m'},
-    "rare": {"name": "Rare", "symbol": "***", "chance": 0.15, "pcolors_string": '\033[94m'},
-    "epic": {"name": "Epic", "symbol": "****", "chance": 0.1, "pcolors_string": '\033[95m'},
-    "legendary": {"name": "Legendary", "symbol": "*****", "chance": 0.07, "pcolors_string": '\033[93m'},
-    "godly": {"name": "Godly", "symbol": "⋈", "chance": 0.03, "pcolors_string": '\033[91m'}
+    "common": {"name": "Common", "symbol": "*", "chance": 0.44, "pcolors_string": ''},
+    "uncommon": {"name": "Uncommon", "symbol": "**", "chance": 0.26, "pcolors_string": '\033[92m'},
+    "rare": {"name": "Rare", "symbol": "***", "chance": 0.16, "pcolors_string": '\033[94m'},
+    "epic": {"name": "Epic", "symbol": "****", "chance": 0.11, "pcolors_string": '\033[95m'},
+    "legendary": {"name": "Legendary", "symbol": "*****", "chance": 0.03, "pcolors_string": '\033[93m'},
+    "godly": {"name": "Godly", "symbol": "⋈", "pcolors_string": '\033[91m'}
 }
 
 #   ^—-^    
