@@ -5,13 +5,6 @@ import os
 
 class Game:    
 
-    def clear_console():
-        # Clear console based on the operating system
-        if os.name == 'nt':
-            os.system('cls')  # For Windows
-        else:
-            os.system('clear')  # For Unix/Linux/Mac
-
     def welcome_player():
         clear_console()
         print(f"\nWelcome to your new adventure!")
@@ -24,7 +17,7 @@ class Game:
         clear_console()
         print(f"\nChoose a class:")
         for i, c in enumerate(SPECIES.keys(), 1):
-            print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}")
+            print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}") 
         choice = int(input(f"Your choice: "))
         class_name = list(SPECIES.keys())[choice - 1]
         return class_name

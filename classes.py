@@ -200,7 +200,7 @@ class Player:
             for idx, item in enumerate(self.inventory, start = 1):
                 print(f"{idx}. {item}")
         elif which_items_to_show == "weapons":
-            weapons_inventory = [item for item in self.inventory if isinstance(item, weapon)]
+            weapons_inventory = [item for item in self.inventory if isinstance(item, Weapon)]
             print(f"\nYour weapons:")
             for idx, item in enumerate(weapons_inventory, start = 1):
                 print(f"{idx}. {item}")
@@ -227,7 +227,7 @@ class Player:
                 print(f"{idx}. {item}")
                 return consumables_inventory
         elif which_items_to_show == "weapons_armor_rings_necklaces":
-            equippable_inventory = [item for item in self.inventory if isinstance(item, weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace)]
+            equippable_inventory = [item for item in self.inventory if isinstance(item, Weapon) or isinstance(item, armor) or isinstance(item, ring) or isinstance(item, necklace)]
             print(f"\nEquippable items:")
             for idx, item in enumerate(equippable_inventory, start = 1):
                 print(f"{idx}. {item}")
@@ -366,7 +366,7 @@ class Player:
                     item_type = item_data['type']
                     
                     if item_type == 'weapon':
-                        item = weapon(**item_data)
+                        item = Weapon(**item_data)
                     elif item_type == 'armor':
                         item = armor(**item_data)
                     elif item_type == 'ring':
@@ -379,7 +379,7 @@ class Player:
                         item = item(**item_data)
                     player.inventory.append(item)
                 
-                player.weapon = weapon(**data['weapon']) if data['weapon'] else None  # dict to object
+                player.weapon = Weapon(**data['weapon']) if data['weapon'] else None  # dict to object
                 player.armor = armor(**data['armor']) if data['armor'] else None
                 player.ring = ring(**data['ring']) if data['ring'] else None
                 player.necklace = necklace(**data['necklace']) if data['necklace'] else None
@@ -426,9 +426,16 @@ class Merchant(NPC):
 class Enemy:
     def __init__(self, which_monster):
         self.name = which_monster[str('name')]
+        self.level = int
+        self.weapon = {}
+        self.armor = {}
+        self.accuracy = float
         self.hp = which_monster['hp']
         self.max_hp = self.hp
         self.attack_damage = which_monster['attack_damage']
+        self.species_name = ""
+        self.inventory = []
+        self.where_found = ""
 
     def get_random_monster(which_monster):
         """
@@ -544,8 +551,8 @@ class Weapon(item):
     @staticmethod
     def get_random_weapon(weapon_type, weapon_rarity, weapon_element):
         try:
-            if player and player.luck > 0:
-                random_value_for_loottable = random.random() + player.luck * 0.001
+            if Player and Player.luck > 0:
+                random_value_for_loottable = random.random() + Player.luck * 0.001
             else:
                 random_value_for_loottable = random.random()
         except:
