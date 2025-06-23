@@ -75,6 +75,9 @@ text_based_rpg/
 ├── lists_and_dicts.py  # Data for classes, monsters, items
 ├── README.md           # This file!
 ├── LICENSE.md          # License file
+├── .Github             # folder
+    ├── workflows       # workflows-folder
+        ├── pypi-release.yml  # is for PyPI releases
 ```
 
 ---
