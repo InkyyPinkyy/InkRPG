@@ -262,6 +262,7 @@ class Player:
             print(f"Please provide a valid number")
 
     def consume_item(self):
+        clear_console()
         consumable_items = self.show_inventory("consumables")
         wahl = int(input(f"\nProvide the number of the item you want to consume or exit (0):\n "))
         if wahl == 0:
@@ -310,6 +311,18 @@ class Player:
             return
 
     def save_game(self):
+        def item_to_dict(item):
+            item_dict = vars(item).copy()
+            
+
+            # Exclude 'weapon_name' only for weapons
+            if isinstance(item, Weapon) and ('weapon_name' and 'weapon_damage') in item_dict:
+                del item_dict['weapon_name']
+                del item_dict['weapon_damage']
+                print(f"Is a weapon!")
+                print(item_dict)
+            #item_dict['item_type'] = type(item).__name__
+            return item_dict
         save_data = {
             'name': self.name,
             'player_species': self.player_species,
@@ -325,16 +338,14 @@ class Player:
             'gold': self.gold, 
             'weapons_created': self.weapons_created,
             'luck': self.luck,
-            'inventory': [
-            {'type': type(item).__name__, **vars(item)} for item in self.inventory  # Save all items in the inventory converted to dicts
-            ], 
-            'weapon': vars(self.weapon) if self.weapon else None,  # object to dict
+            'inventory': [item_to_dict(item) for item in self.inventory],
+            'weapon': item_to_dict(self.weapon) if self.weapon else None,            
             'armor': vars(self.armor) if self.armor else None,
             'ring': vars(self.ring) if self.ring else None,
             'necklace': vars(self.necklace) if self.necklace else None
         }
         with open(f"{self.name}_save.json", "w") as file:
-            json.dump(save_data, file)
+            json.dump(save_data, file, indent = 4)
         
         settings_data = {
             'autosave_on' : self.autosave_on,
@@ -344,54 +355,136 @@ class Player:
 
     @staticmethod
     def load_game(player_file_name, settings_file_name):
-        if os.path.exists(player_file_name) and os.path.exists(settings_file_name):
+        if not os.path.exists(player_file_name) or not os.path.exists(settings_file_name):
+            print("Save file(s) not found.")
+            return None
+
+        try:
+            # Load player data
             with open(player_file_name, "r") as file:
                 data = json.load(file)
-                player_species = data['player_species']
-                player = Player(data['name'],player_species)
-                player.name_of_player_species = data['name_of_player_species']
-                player.hp = data['hp']
-                player.max_hp = data['max_hp']
-                player.vitality = data['vitality']
-                player.strength = data['strength']
-                player.attack_damage = data['attack_damage']
-                player.level = data['level']
-                player.xp = data['xp']
-                player.gold = data['gold']
-                player.weapons_created = data['weapons_created']
-                player.luck = data['luck']
 
-                player.inventory = []
-                for item_data in data['inventory']:
-                    item_type = item_data['type']
-                    
-                    if item_type == 'weapon':
-                        item = Weapon(**item_data)
-                    elif item_type == 'armor':
-                        item = armor(**item_data)
-                    elif item_type == 'ring':
-                        item = ring(**item_data)
-                    elif item_type == 'necklace':
-                        item = necklace(**item_data)
-                    elif item_type == 'consumable':
-                        item = consumable(**item_data)
-                    else:
-                        item = item(**item_data)
+            player_species = data['player_species']
+            player = Player(data['name'], player_species)
+
+            # Basic attributes
+            player.name_of_player_species = data['name_of_player_species']
+            player.hp = data['hp']
+            player.max_hp = data['max_hp']
+            player.vitality = data['vitality']
+            player.strength = data['strength']
+            player.attack_damage = data['attack_damage']
+            player.level = data['level']
+            player.xp = data['xp']
+            player.gold = data['gold']
+            player.weapons_created = data['weapons_created']
+            player.luck = data['luck']
+            player.skillpoints = data.get('skillpoints', 0)  # Optional fallback
+
+            # Inventory loading
+            item_classes = {
+                'weapon': Weapon,
+                'armor': armor,
+                'ring': ring,
+                'necklace': necklace,
+                'consumable': consumable
+            }
+
+            player.inventory = []
+            for item_data in data['inventory']:
+                item_type = item_data.get('item_type', '').lower()
+                item_class = item_classes.get(item_type)
+
+                if item_class:
+                    # Remove 'type' before instantiating
+                    item_data_clean = {k: v for k, v in item_data.items() if k != 'type'}
+                    item = item_class(**item_data_clean)
                     player.inventory.append(item)
-                
-                player.weapon = Weapon(**data['weapon']) if data['weapon'] else None  # dict to object
-                player.armor = armor(**data['armor']) if data['armor'] else None
-                player.ring = ring(**data['ring']) if data['ring'] else None
-                player.necklace = necklace(**data['necklace']) if data['necklace'] else None
-                print(f"Game-file of {player.name} was succesfully loaded!")
-                return player
+                else:
+                    print(f"Warning: Unknown item type '{item_type}' found in inventory.")
+
+            # Equipment
+            def load_equipment(equip_data, cls):
+                if equip_data:
+                    clean_data = {k: v for k, v in equip_data.items() if k != 'type'}
+                    return cls(**clean_data)
+                return None
+
+            player.weapon = load_equipment(data.get('weapon'), Weapon)
+            player.armor = load_equipment(data.get('armor'), armor)
+            player.ring = load_equipment(data.get('ring'), ring)
+            player.necklace = load_equipment(data.get('necklace'), necklace)
+
+            # Load settings
             with open(settings_file_name, "r") as file:
-                data = json.load(file)
-                self.autosave_on = data['autosave_on']
-                print(f"Settings-file of {player.name} was succesfully loaded!")
-        else:
-            # mention of the not existing file is in main() function
+                settings = json.load(file)
+                autosave = settings.get('autosave_on', False)
+
+                # If autosave_on is part of Player, set it:
+                if hasattr(player, 'autosave_on'):
+                    player.autosave_on = autosave
+
+            print(f"Game-file of {player.name} was successfully loaded!")
+            return player
+
+        except Exception as e:
+            print(f"Failed to load game: {e}")
             return None
+
+    # @staticmethod
+    # def load_game(player_file_name, settings_file_name):
+    #     if os.path.exists(player_file_name) and os.path.exists(settings_file_name):
+    #         with open(player_file_name, "r") as file:
+    #             data = json.load(file)
+    #             player_species = data['player_species']
+    #             player = Player(data['name'],player_species)
+    #             player.name_of_player_species = data['name_of_player_species']
+    #             player.hp = data['hp']
+    #             player.max_hp = data['max_hp']
+    #             player.vitality = data['vitality']
+    #             player.strength = data['strength']
+    #             player.attack_damage = data['attack_damage']
+    #             player.level = data['level']
+    #             player.xp = data['xp']
+    #             player.gold = data['gold']
+    #             player.weapons_created = data['weapons_created']
+    #             player.luck = data['luck']
+
+    #             player.inventory = []
+    #             for item_data in data['inventory']:
+    #                 item_type = item_data['type']
+                    
+    #                 if item_type == 'weapon':
+    #                     item = Weapon(**item_data)
+    #                 elif item_type == 'armor':
+    #                     item = armor(**item_data)
+    #                 elif item_type == 'ring':
+    #                     item = ring(**item_data)
+    #                 elif item_type == 'necklace':
+    #                     item = necklace(**item_data)
+    #                 elif item_type == 'consumable':
+    #                     item = consumable(**item_data)
+    #                 else:
+    #                     item = item(**item_data)
+    #                 player.inventory.append(item)
+                
+    #             player.weapon = Weapon(**data['weapon']) if data['weapon'] else None  # dict to object
+    #             player.armor = armor(**data['armor']) if data['armor'] else None
+    #             player.ring = ring(**data['ring']) if data['ring'] else None
+    #             player.necklace = necklace(**data['necklace']) if data['necklace'] else None
+    #             print(f"Game-file of {player.name} was succesfully loaded!")
+                
+
+    #         with open(settings_file_name, "r") as file:
+    #             data = json.load(file)
+    #             player.autosave_on = data['autosave_on']
+    #             print(f"Settings-file of {player.name} was succesfully loaded!")
+            
+    #         return player
+
+    #     else:
+    #         # mention of the not existing file is in main() function
+    #         return None
 
 class NPC:
     def __init__(self, which_npc):
@@ -438,7 +531,7 @@ class Enemy:
         self.where_found = ""
 
     def get_random_monster(which_monster):
-        """
+        """        self.name = name
         valid values for which_monster:\n
         - "normal": monsters for enemy_encounter()\n
         - "dungeon": dungeon monsters\n
@@ -461,9 +554,9 @@ class Enemy:
         return f"{self.name} (HP: {self.hp}, Attack: {self.attack_damage})"
 
 class item:
-    def __init__(self, type, item_info):
-        self.name = str
-        self.type = type
+    def __init__(self, item_type, item_info):
+        #self.name = ""
+        self.item_type = item_type
         self.item_info = str(item_info)
 
     def __str__(self):
@@ -518,9 +611,9 @@ class Weapon(item):
             - "iron"
             - "magic"
     """
-    def __init__(self, type, item_info, weapon_type, weapon_rarity, weapon_element, enchantments = None):
-        super().__init__(type, item_info)
-
+    def __init__(self, item_type, item_info, weapon_type, weapon_rarity, weapon_element, enchantments):
+        super().__init__(item_type, item_info)
+        self.item_type = item_type
         self.weapon_type = weapon_type    
         self.item_info = item_info
         self.weapon_rarity = weapon_rarity         
@@ -529,14 +622,14 @@ class Weapon(item):
         
         self.weapon_damage = self.weapon_type["base_damage_on_rarity"][self.weapon_rarity["symbol"]]
         
-        self.name = f'{self.weapon_type["type_name"]} of {self.weapon_element["rarities"][self.weapon_rarity["symbol"]]}'
+        self.weapon_name = f'{self.weapon_type["type_name"]} of {self.weapon_element["rarities"][self.weapon_rarity["symbol"]]}'
         
         self.enchantments = enchantments if enchantments else [] 
-        self.IsEnabled = True
+        #self.IsEnabled = true
 
     def __str__(self):
         return (
-            f"{self.weapon_rarity['pcolors_string']}{self.name}{pcolors.END} "
+            f"{self.weapon_rarity['pcolors_string']}{self.weapon_name}{pcolors.END} "
             f"({self.weapon_rarity['symbol']} {self.weapon_element['symbol']}{self.weapon_type['type_name']}):\n"
             f"    - {self.weapon_damage} Damage\n"
             f"    - {self.item_info}\n"
@@ -615,11 +708,11 @@ class necklace(item):
         return f"{self.name} ({self.type}): {self.necklace_type}: {self.necklace_strength}\n    {self.item_info}"
 
 class consumable(item):
-    def __init__(self, name, type, item_info, consumable_type, stats_player_gets):
-        super().__init__(type, item_info)
+    def __init__(self, name, item_type, item_info, consumable_type, stats_player_gets):
+        super().__init__(item_type, item_info)
         self.name = name
         self.consumable_type = consumable_type
         self.stats_player_gets = int(stats_player_gets)
 
     def __str__(self):
-        return f"{self.name} ({self.type}): {self.stats_player_gets} HP\n   {self.item_info}"
+        return f"{self.name} ({self.item_type}): {self.stats_player_gets} HP\n   {self.item_info}"

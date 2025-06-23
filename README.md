@@ -56,7 +56,7 @@ python -m __main__
 - [ ] Respawn system
 - [ ] Use inventory during combat
 - [ ] Drop system
-- [ ] structured save-file
+- [x] structured save-file
 - [x] Autosave
 - [x] English as the standard edition
 - [ ] Skill system (unique tree for every species)
