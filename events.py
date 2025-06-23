@@ -33,6 +33,7 @@ events = {
     16: "event_player_finds_herb",
     17: "event_player_finds_city",
     18: "event_player_finds_npc_getting_attacked",
+    19: "player_finds_magical_sheep",
 }
 
 def do_random_event():

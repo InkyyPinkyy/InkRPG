@@ -7,6 +7,102 @@ SPECIES = {
     "Inchling" : {"name_of_player_species": "Inchling", "hp": 80, "vitality": 1.5, "attack_damage": 15, "strength": 1.5}
 }
 
+monster_species = {
+
+    # Ground-type
+    "Goblin" : {
+        "general_spawn_chance": 0.1,
+        "mob_type": "ground",
+        "subclasses": {
+            "normal_goblin": {"name": "Goblin", "base_damage": 7, "base_hp": 50, "highest_armor_tier": 2, "highest_weapon_rarity": "**", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "hobgoblin": {"name": "Hobgoblin", "base_damage": 20, "base_hp": 80, "highest_armor_tier": 4, "highest_weapon_rarity": "****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            "goblin_brute": {"name": "Goblin Brute", "base_damage": 30, "base_hp": 100, "highest_armor_tier": 5, "highest_weapon_rarity": "*****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.15, "rank": 3, "can_be_found_where": []},
+            "goblin_king": {"name": "Goblin King", "base_damage": 50, "base_hp": 300, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.05, "rank": 4, "can_be_found_where": []},
+            },
+        },
+    "Orc": {
+        "general_spawn_chance": 0.1, #TODO: When doing the calculation for the enemy damage, it will look at the rank. For explanation: Since Monsters a re getting stronger with the player, I want lower-rank mobs to get stronger slower so the player gtes something for his work; maybe one-shot possible
+        "mob_type": "ground",
+        "subclasses": {
+            "normal_orc": {"name": "Orc", "base_damage": 16, "base_hp": 80, "highest_armor_tier": 2, "highest_weapon_rarity": "**", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "brave_orc_youngling": {"name": "Orc Youngling", "base_damage": 25, "base_hp": 95, "highest_armor_tier": 3, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            "head_of_orc_tribe": {"name": "Head of Orc tribe", "base_damage": 80, "base_hp": 350, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.1, "rank": 3, "can_be_found_where": []},
+            },
+        },
+    "Sheep" : {
+        "general_spawn_chance": 0.1,
+        "mob_type": "ground",
+        "subclasses": {
+            "baby_sheep": {"name": "Baby Sheep", "base_damage": 3, "base_hp": 20, "highest_armor_tier": None, "highest_weapon_rarity": None, "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 1, "can_be_found_where": []},
+            "normal_sheep": {"name": "Sheep", "base_damage": 5, "base_hp": 30, "highest_armor_tier": None, "highest_weapon_rarity": None, "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 2, "can_be_found_where": []},
+            "big_chongus_sheep": {"name": "Big Sheep", "base_damage": 10, "base_hp": 50, "highest_armor_tier": None, "highest_weapon_rarity": None, "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.14, "rank": 3, "can_be_found_where": []},
+            "angry_magical_sheep": {"name": "Angry Magical Sheep", "base_damage": 6, "base_hp": 300, "highest_armor_tier": None, "highest_weapon_rarity": None, "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.05, "rank": 4, "can_be_found_where": []},
+            "unicorn_sheep": {"name": "Unicorn Sheep", "base_damage": 7, "base_hp": 150, "highest_armor_tier": None, "highest_weapon_rarity": None, "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.01, "rank": 5, "can_be_found_where": []},
+            },
+        },
+    "Bandit": {
+        "general_spawn_chance": 0.1,
+        "mob_type": "ground",
+        "subclasses": {
+            "bandit": {"name": "Bandit", "base_damage": 10, "base_hp": 60, "highest_armor_tier": 2, "highest_weapon_rarity": "**", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "bandit_leader": {"name": "Bandit Leader", "base_damage": 30, "base_hp": 100, "highest_armor_tier": 4, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            "bandit_warlord": {"name": "Bandit Warlord", "base_damage": 50, "base_hp": 200, "highest_armor_tier": 5, "highest_weapon_rarity": "*****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.15, "rank": 3, "can_be_found_where": []},
+            "bandit_king": {"name": "Bandit King", "base_damage": 80, "base_hp": 400, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.05, "rank": 4, "can_be_found_where": []},
+            },
+        },
+    "Mimic": {
+        "general_spawn_chance": 0.1,
+        "mob_type": "ground",
+        "subclasses": {
+            "tiny_mimic": {"name": "Tiny Mimic", "base_damage": 5, "base_hp": 30, "highest_armor_tier": 1, "highest_weapon_rarity": "*", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.2, "rank": 1, "can_be_found_where": []},
+            "normal_mimc": {"name": "Mimic", "base_damage": 15, "base_hp": 80, "highest_armor_tier": 3, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 2, "can_be_found_where": []},
+            "legendary_mimic": {"name": "Legendary Mimic", "base_damage": 40, "base_hp": 200, "highest_armor_tier": 5, "highest_weapon_rarity": "*****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.25, "rank": 3, "can_be_found_where": []},
+            "ancient_mimic": {"name": "Ancient Mimic", "base_damage": 70, "base_hp": 500, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.05, "rank": 4, "can_be_found_where": []},
+            
+            },
+        },
+    # multiple mob types
+    "Zombie" : {
+        "general_spawn_chance": 0.1,
+        "mob_type": ["ground", "magic"],
+        "subclasses": {
+            "baby_zombie": {"name": "Baby Zombie", "base_damage": 5, "base_hp": 40, "highest_armor_tier": 1, "highest_weapon_rarity": "*", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "zombie": {"name": "Zombie", "base_damage": 9, "base_hp": 85, "highest_armor_tier": 3, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            "zombie_soldier": {"name": "Zombie Soldier", "base_damage": 30, "base_hp": 110, "highest_armor_tier": 5, "highest_weapon_rarity": "*****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.15, "rank": 3, "can_be_found_where": []},
+            "queen_of_the_undead": {"name": "Queen of the undead", "base_damage": 60, "base_hp": 350, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.05, "rank": 3, "can_be_found_where": []},
+            },
+        },
+    "Skeleton": {
+        "general_spawn_chance": 0.1,
+        "mob_type": ["ground", "magic"],
+        "subclasses": {
+            "normal_skeleton": {"name": "Skeleton", "base_damage": 8, "base_hp": 60, "highest_armor_tier": 3, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "skeleton_guard": {"name": "Skeleton Guard", "base_damage": 25, "base_hp": 90, "highest_armor_tier": 5, "highest_weapon_rarity": "*****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            "queen_of_the_undead": {"name": "Queen of the undead", "base_damage": 60, "base_hp": 350, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.2, "rank": 3, "can_be_found_where": []},
+            },
+        },
+    "Dragon": {
+        "general_spawn_chance": 0.1,
+        "mob_type": ["air", "ground", "magic"],
+        "subclasses": {
+            "baby_dragon": {"name": "Baby Dragon", "base_damage": 15, "base_hp": 100, "highest_armor_tier": 2, "highest_weapon_rarity": "**", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "young_dragon": {"name": "Young Dragon", "base_damage": 30, "base_hp": 200, "highest_armor_tier": 4, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            "adult_dragon": {"name": "Adult Dragon", "base_damage": 60, "base_hp": 400, "highest_armor_tier": 6, "highest_weapon_rarity": "*****", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.15, "rank": 3, "can_be_found_where": []},
+            "ancient_dragon": {"name": "Ancient Dragon", "base_damage": 100, "base_hp": 800, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.05, "rank": 4, "can_be_found_where": []},
+            },
+        },
+
+    # magic-type
+    "Phantom": {
+        "general_spawn_chance": 0.1,
+        "mob_type": "magic",
+        "subclasses": {
+            "phantom": {"name": "Phantom", "base_damage": 10, "base_hp": 70, "highest_armor_tier": 3, "highest_weapon_rarity": "***", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.5, "rank": 1, "can_be_found_where": []},
+            "phantom_warrior": {"name": "Phantom Warrior", "base_damage": 25, "base_hp": 120, "highest_armor_tier": 6, "highest_weapon_rarity": "⋈", "material_drop_chances": {}, "weapon_and_armor_drop_chances": {}, "spawn_chance": 0.3, "rank": 2, "can_be_found_where": []},
+            },
+        },
+    }
+
 monsters = {
     "Dragon" : {"name": "Dragon","hp": 220,"attack_damage": 25},
     "Skeleton" : {"name": "Skeleton","hp": 70,"attack_damage": 18},
@@ -127,8 +223,6 @@ weapon_types = {
 
 }
 
-
-
 weapon_rarities = {
     "common": {"name": "Common", "symbol": "*", "chance": 0.44, "pcolors_string": ''},
     "uncommon": {"name": "Uncommon", "symbol": "**", "chance": 0.26, "pcolors_string": '\033[92m'},
@@ -182,7 +276,6 @@ weapon_elements = {
     "iron": {"symbol": "🔩", "rarities": {"*":"Iron", "**":"Steel", "***":"Mithril", "****":"Adamant", "*****":"Godsteel", "⋈":"Starforged"}, "possible_enchantments":"iron_enchantments", "good_against": [], "bad_against": []},
     "magic": {"symbol": "🔮", "rarities": {"*":"Magic", "**":"Mana", "***":"Arcana", "****":"Spellfire", "*****":"Runeblade", "⋈":"Aetherial Wonder"}, "possible_enchantments":"iron_enchantments", "good_against": [], "bad_against": []},
 }
-
 
 all_items = {
     "Dagger": {"name": "Dagger", "type": "weapon", "item_info": "A small dagger that is easy to carry.", "weapon_type": "dagger", "weapon_damage": 4},

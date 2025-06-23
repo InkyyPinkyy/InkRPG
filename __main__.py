@@ -5,13 +5,6 @@ import os
 
 class Game:    
 
-    def clear_console():
-        # Clear console based on the operating system
-        if os.name == 'nt':
-            os.system('cls')  # For Windows
-        else:
-            os.system('clear')  # For Unix/Linux/Mac
-
     def welcome_player():
         clear_console()
         print(f"\nWelcome to your new adventure!")
@@ -24,7 +17,7 @@ class Game:
         clear_console()
         print(f"\nChoose a class:")
         for i, c in enumerate(SPECIES.keys(), 1):
-            print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}")
+            print(f"{pcolors.CYAN}{i}.{pcolors.END} {c}") 
         choice = int(input(f"Your choice: "))
         class_name = list(SPECIES.keys())[choice - 1]
         return class_name
@@ -32,7 +25,7 @@ class Game:
     def main():
         clear_console()
         if input(f"new game (n) or load an existing game (l)?\n").lower() == 'l':
-            name = input(f"{pcolors.RED}Gib deinen Spielernamen ein: ")
+            name = input(f"{pcolors.RED}Provide your player-name:\n")
             player = Player.load_game(f"{name}_save.json", f"{name}_settings.json")
             if not player:
                 print(f"invalid name, save-file, settings-file or both of them does/do not exist.\nPlease try again or start a new game.")
@@ -43,7 +36,7 @@ class Game:
             species_name = Game.choose_species()
             player = Player(name, SPECIES[species_name])
 
-            Knife = Weapon("weapon","A small Knife that you found inside your pocket", weapon_types["dagger"], weapon_rarities["common"], weapon_elements["iron"], enchantments=None )
+            Knife = Weapon("weapon", "A small Knife that you found inside your pocket", weapon_types["dagger"], weapon_rarities["common"], weapon_elements["iron"], enchantments=None )
             HealingPotion = consumable("Healing Potion", "consumable", "A tube out of glass with a red liquid inside", "health", 100)
             player.weapon = Knife
             player.inventory.append(Knife)

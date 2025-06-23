@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inkrpg"
+dynamic = ["version"]
+requires-python = ">=3.13.3"
+description = "Text-based-RPG made by InkyyPinkyy"
+readme = "README.md"
+
+license = { file = "LICENSE" }
+
+authors = [
+  { name = "InkyyPinkyy", email = "inkyy.social@gmail.com" }
+]
+
+keywords = ["game", "cli", "fantasy", "python"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+
+]
+
+[project.scripts]
+spacegame = "inkrpg.main:main"
+
+[project.urls]
+"Homepage" = "https://github.com/InkyyPinkyy/InkRPG"
+
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "node-and-date"
