@@ -107,7 +107,7 @@ monsters = {
     #"Dragon" : {"name": "Dragon","hp": 220,"attack_damage": 25},
     #"Skeleton" : {"name": "Skeleton","hp": 70,"attack_damage": 18},
     #"Orc" : {"name": "Orc","hp": 170,"attack_damage": 20},
-    +"Phantom" : {"name": "Phantom","hp": 130,"attack_damage": 19},
+    "Phantom" : {"name": "Phantom","hp": 130,"attack_damage": 19},
     "Ghost" : {"name": "Ghost","hp": 120,"attack_damage": 15},
     #"Zombie" : {"name": "Zombie","hp": 135,"attack_damage": 20},
     #"Sheep" : {"name": "Sheep","hp": 30,"attack_damage": 10},

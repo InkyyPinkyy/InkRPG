@@ -61,16 +61,6 @@ python -m __main__
 - [x] English as the standard edition
 - [ ] Skill system (unique tree for every species)
 - [ ] graphics/interactive CLI
----
-
-## 🧩 Code Example
-
-```python
-def event_enemy_encounter(player):
-    monster_data = Enemy.get_random_monster("normal")
-    enemy = Enemy(monster_data)
-    player.enemy_encounter(enemy)
-```
 
 ---
 
@@ -84,6 +74,7 @@ text_based_rpg/
 ├── dungeon.py          # First stuff for Dungeon later on
 ├── lists_and_dicts.py  # Data for classes, monsters, items
 ├── README.md           # This file!
+├── LICENSE.md          # License file
 ```
 
 ---
@@ -96,7 +87,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## 📜 License
 
-[MIT](LICENSE)
+[Ink-License](./LICENSE)
 
 ---
 
