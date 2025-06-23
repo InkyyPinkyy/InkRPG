@@ -52,7 +52,7 @@ python -m __main__
 ## 🗺️ Planned Features
 
 - [ ] More events: dungeons, villages, NPC encounters
-- [ ] Reworked inventory & weapon system (rarities, elements, durability)
+- [x] Reworked inventory & weapon system (rarities, elements, durability)
 - [ ] Respawn system
 - [ ] Use inventory during combat
 - [ ] Drop system
