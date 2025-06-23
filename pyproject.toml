@@ -25,7 +25,7 @@ dependencies = [
 ]
 
 [project.scripts]
-spacegame = "inkrpg.main:main"
+inkrpg = "inkrpg.main:main"
 
 [project.urls]
 "Homepage" = "https://github.com/InkyyPinkyy/InkRPG"
