@@ -431,61 +431,6 @@ class Player:
             print(f"Failed to load game: {e}")
             return None
 
-    # @staticmethod
-    # def load_game(player_file_name, settings_file_name):
-    #     if os.path.exists(player_file_name) and os.path.exists(settings_file_name):
-    #         with open(player_file_name, "r") as file:
-    #             data = json.load(file)
-    #             player_species = data['player_species']
-    #             player = Player(data['name'],player_species)
-    #             player.name_of_player_species = data['name_of_player_species']
-    #             player.hp = data['hp']
-    #             player.max_hp = data['max_hp']
-    #             player.vitality = data['vitality']
-    #             player.strength = data['strength']
-    #             player.attack_damage = data['attack_damage']
-    #             player.level = data['level']
-    #             player.xp = data['xp']
-    #             player.gold = data['gold']
-    #             player.weapons_created = data['weapons_created']
-    #             player.luck = data['luck']
-
-    #             player.inventory = []
-    #             for item_data in data['inventory']:
-    #                 item_type = item_data['type']
-                    
-    #                 if item_type == 'weapon':
-    #                     item = Weapon(**item_data)
-    #                 elif item_type == 'armor':
-    #                     item = armor(**item_data)
-    #                 elif item_type == 'ring':
-    #                     item = ring(**item_data)
-    #                 elif item_type == 'necklace':
-    #                     item = necklace(**item_data)
-    #                 elif item_type == 'consumable':
-    #                     item = consumable(**item_data)
-    #                 else:
-    #                     item = item(**item_data)
-    #                 player.inventory.append(item)
-                
-    #             player.weapon = Weapon(**data['weapon']) if data['weapon'] else None  # dict to object
-    #             player.armor = armor(**data['armor']) if data['armor'] else None
-    #             player.ring = ring(**data['ring']) if data['ring'] else None
-    #             player.necklace = necklace(**data['necklace']) if data['necklace'] else None
-    #             print(f"Game-file of {player.name} was succesfully loaded!")
-                
-
-    #         with open(settings_file_name, "r") as file:
-    #             data = json.load(file)
-    #             player.autosave_on = data['autosave_on']
-    #             print(f"Settings-file of {player.name} was succesfully loaded!")
-            
-    #         return player
-
-    #     else:
-    #         # mention of the not existing file is in main() function
-    #         return None
-
 class NPC:
     def __init__(self, which_npc):
         self.name = which_npc[str('name')]
@@ -630,7 +575,7 @@ class Weapon(item):
     def __str__(self):
         return (
             f"{self.weapon_rarity['pcolors_string']}{self.weapon_name}{pcolors.END} "
-            f"({self.weapon_rarity['symbol']} {self.weapon_element['symbol']}{self.weapon_type['type_name']}):\n"
+            f"({self.weapon_rarity['symbol']} | {self.weapon_element['symbol']} | {self.weapon_type['type_name']}):\n"
             f"    - {self.weapon_damage} Damage\n"
             f"    - {self.item_info}\n"
 
@@ -642,7 +587,20 @@ class Weapon(item):
         )
 
     @staticmethod
-    def get_random_weapon(weapon_type, weapon_rarity, weapon_element):
+    def get_random_weapon(weapon_type, weapon_rarity, weapon_element) -> 'Weapon':
+        """
+        weapon_type: str, legal values:\n
+            - "random": random weapon type from the weapon_types dict
+            - one of the keys in weapon_types dict, e.g. "dagger", "sword", "greatsword", etc.
+
+        weapon_rarity: str, legal values:\n
+            - "random": random weapon rarity from the weapon_rarities dict
+            - one of the keys in weapon_rarities dict, e.g. "common", "uncommon", etc.
+
+        weapon_element: str, legal values:\n
+            - "random": random weapon element from the weapon_elements dict
+            - one of the keys in weapon_elements dict, e.g. "fire", "water", "earth", etc.
+        """
         try:
             if Player and Player.luck > 0:
                 random_value_for_loottable = random.random() + Player.luck * 0.001

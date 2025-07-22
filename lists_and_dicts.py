@@ -157,7 +157,7 @@ weapon_types = {
 
     # Ranged weapons
 
-    "bow": {"type_name": "Bow", # du neger hihi
+    "bow": {"type_name": "Bow",
             "strength_required": 1.0, 
             "base_chance_to_fail": 0.15,
 
@@ -212,7 +212,7 @@ weapon_types = {
 
     # special weapons
 
-    "fish": {"type_name": "Fish", # hehe du nicnac
+    "fish": {"type_name": "Fish",
                "strength_required": 0.4, 
                "base_chance_to_fail": 0.01, 
                "base_damage_on_rarity": {"*":2, "**":4, "***":6, "****":8, "*****":10, "⋈":20}, 
