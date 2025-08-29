@@ -18,7 +18,7 @@ class Employee:
 
 import sqlite3
 
-conn = sqlite3.connect('employee.db') # ':memory:' für testing
+conn = sqlite3.connect('static.db') # ':memory:' für testing
  
 
 c = conn.cursor()
@@ -41,14 +41,31 @@ def remove_emp(emp):
     with conn:
         c.execute("""DELETE from employees WHERE first = :first AND last = :last""",
         {'first': emp.first, 'last': emp.last})
-        
-emp1 = Employee('John', 'Boar', 100000)
-emp2 = Employee('Mira', 'Gorgel', 50000)
+
+def get_subclasses():
+    with conn:
+        c.execute("SELECT * FROM mob_subcls WHERE rank = 1") 
+        return c.fetchall()
+
+def get_rar():
+    with conn:
+        #c.execute("SELECT RarChance FROM rarities WHERE Id > 0")
+        c.execute("SELECT RarChance FROM rarities")
+        rars = c.fetchall()
+        i = 0
+        for rar in rars:
+            i += rar[0]
+        print("Sum of RarChance:", i)
+        return rars
+get_rar()
+
+#print(get_subclasses())
+##emp2 = Employee('Mira', 'Gorgel', 50000)
 #delete_emp = Employee(':first', ':last', 50000)
-update_pay(emp2, 5)
+#update_pay(emp2, 5)
 #remove_emp(delete_emp)
-emps = get_emps_by_name('Gorgel')
-print(emps)
+#emps = get_emps_by_name('Gorgel')
+#print(emps)
 # c.execute("""CREATE TABLE employees (
             # first text,
             # last text,
