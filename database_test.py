@@ -44,7 +44,7 @@ def remove_emp(emp):
 
 def get_subclasses():
     with conn:
-        c.execute("SELECT * FROM mob_subcls WHERE rank = 1") 
+        c.execute("SELECT * FROM mob_subcls WHERE rank = 2") 
         return c.fetchall()
 
 def get_rar():
