@@ -47,7 +47,7 @@ class Player:
         self.name = name
         self.player_species = player_species
         self.name_of_player_species = player_species['name_of_player_species']
-        
+        self.current_location = "starting_area"
         self.skillpoints = 0
         self.level = 1
         self.xp = 0
@@ -302,12 +302,12 @@ class Player:
 
     def do_inventory_shit(self):
         self.show_inventory("everything")
-        action = input("\nEquip item (1), consume item (2) or return (3)? ")
+        action = input(f"\nEquip item (1), consume item (2) or {pcolors.RED}return (r)?{pcolors.END} ")
         if action.lower() == '1':
             self.choose_equipment()
         elif action.lower() == '2':
             self.consume_item()
-        elif action.lower() == '3':
+        elif action.lower() == 'r' or '3':
             return
 
     def save_game(self):
